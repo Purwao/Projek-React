@@ -10,6 +10,7 @@ function Nav() {
       <Link to='/sejarah'><li>Sejarah</li></Link>
       <Link to='/tentang'><li>Tentang</li></Link>
       <Link to='/siswa'><li>Siswa</li></Link>
+      <Link to='/menu'>Menu</Link>
       </ul>
     </div>
   );
