@@ -45,11 +45,19 @@ class MenuController extends Controller
         $menu = Menu::create($data);
 
         if ($menu) {
-            return response()->json([
-                'status' => 201,
+            $result=[
+                'status' => 200,
                 'pesan' => 'Data menu berhasil ditambahkan',
-            ]);
+            ];
         }
+        else {
+            $result=[
+                'status'=>400,
+                'pesan'=>'bad request!'
+            ];
+        }
+
+        return response()->json($result,200);
     }
 
     /**

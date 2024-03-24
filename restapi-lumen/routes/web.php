@@ -21,7 +21,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router ->group(['prefix'=>'api'], function () use($router){
+$router -> post('login',['uses'=> 'LoginController@register']);
+$router -> post('login',['uses'=> 'LoginController@login']);
+
+$router ->group(['prefix'=>'api', 'middleware'=>'user'], function () use($router){
         $router->get('/',['uses'=>'KategoriController@index']);
         $router->get('/kategori',['uses'=>'KategoriController@show']);
         $router->delete('/kategori/{id}',['uses'=>'KategoriController@destroy']);
