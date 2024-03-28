@@ -12,10 +12,13 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+
+
+
+    public function index()
     {
-        $data = Kategori::all($id);
-       return response()->json($data);
+        $data = Kategori::all();
+        return response()->json($data);
     }
 
     /**
@@ -56,7 +59,6 @@ class KategoriController extends Controller
     public function show($id)
     {
         $data = Kategori::where('idkategori', $id)->get();
-
         return response()->json($data, 200);
     }
 

@@ -24,41 +24,46 @@ class MenuController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {
-        $this->validate($request, [
-            'idkategori' => 'required|numeric',
-            'menu' => 'required',
-            'gambar' => 'required|max:2048',
-            'harga' => 'required|numeric',
-        ]);
+{
+    $this->validate($request, [
+        'idkategori' => 'required|numeric',
+        'menu' => 'required',
+        'gambar' => 'required|max:2048',
+        'harga' => 'required|numeric',
+    ]);
 
-        $ng = $request->file('gambar')->getClientOriginalName();
-        $request->file('gambar')->move('upload', $ng);
+    // Check if file is present in the request
+    if ($request->hasFile('gambar')) {
+        $namagambar = $request->file('gambar')->getClientOriginalName();
+        $request->file('gambar')->move('upload', $namagambar);
 
         $data = [
             'idkategori' => $request->input('idkategori'),
             'menu' => $request->input('menu'),
-            'gambar' => url('upload/', $ng),
+            'gambar' => url('upload/', $namagambar),
             'harga' => $request->input('harga'),
         ];
 
         $menu = Menu::create($data);
 
         if ($menu) {
-            $result=[
-                'status' => 200,
+            return response()->json([
+                'status' => 201,
                 'pesan' => 'Data menu berhasil ditambahkan',
-            ];
+            ]);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'pesan' => 'Gagal menambahkan data menu',
+            ]);
         }
-        else {
-            $result=[
-                'status'=>400,
-                'pesan'=>'bad request!'
-            ];
-        }
-
-        return response()->json($result,200);
+    } else {
+        return response()->json([
+            'status' => 400,
+            'pesan' => 'Gambar tidak ditemukan dalam request',
+        ]);
     }
+}
 
     /**
      * Store a newly created resource in storage.
@@ -77,9 +82,10 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show(Menu $menu)
+    public function show($id)
     {
-        //
+        $data=Menu::where('idmenu',$id)->get();
+        return response()->json($data);
     }
 
     /**
@@ -111,8 +117,9 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Menu $menu)
+    public function destroy($id)
     {
-        //
+        $data=Menu::where('idmenu',$id)->delete();
+        return response()->json("The memory became vague overtime, so does the data. ");
     }
 }

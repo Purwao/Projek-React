@@ -2,6 +2,7 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\KategoriController;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Route;
@@ -21,17 +22,19 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router -> post('login',['uses'=> 'LoginController@register']);
-$router -> post('login',['uses'=> 'LoginController@login']);
+$router -> post('api/register',['uses'=>'LoginController@register']);
 
-$router ->group(['prefix'=>'api', 'middleware'=>'user'], function () use($router){
-        $router->get('/',['uses'=>'KategoriController@index']);
-        $router->get('/kategori',['uses'=>'KategoriController@show']);
+$router -> post('api/login',['uses'=>'LoginController@login']);
+
+// $router->get('api/kategori',['uses'=>'KategoriController@index']);
+
+$router ->group(['prefix'=>'api', 'middleware'=>'auth'], function ($router) {
+
+        $router->get('/kategori',['uses'=>'KategoriController@index']);
+        $router->get('/kategori/{id}',['uses'=>'KategoriController@show']);
         $router->delete('/kategori/{id}',['uses'=>'KategoriController@destroy']);
         $router->put('/kategori/{id}',['uses'=>'KategoriController@update']);
-        $router->post('/kategori/{id}',['uses'=>'KategoriController@create']);
-
-
+        $router->post('/kategori',['uses'=>'KategoriController@create']);
 
         $router->get('/pelanggan', ['uses' => 'PelangganController@index']);
         $router->get('/pelanggan/{id}', ['uses' => 'PelangganController@show']);
@@ -41,9 +44,9 @@ $router ->group(['prefix'=>'api', 'middleware'=>'user'], function () use($router
 
 
         $router->get('menu', ['uses' => 'MenuController@index']);
-        $router->get('/menu/{id}', ['uses' => 'MenuController@show']);
+        $router->get('/menu/{id}',['uses' => 'MenuController@show']);
         $router->post('/menu', ['uses' => 'MenuController@create']);
-        $router->post('/menu/{id}', ['uses' => 'MenuController@update']);
+        $router->put('/menu/{id}', ['uses' => 'MenuController@update']);
         $router->delete('/menu/{id}', ['uses' => 'MenuController@destroy']);
 
     });

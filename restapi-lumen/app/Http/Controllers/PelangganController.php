@@ -15,7 +15,8 @@ class PelangganController extends Controller
      */
     public function index()
     {
-        //
+        $data=Pelanggan::all();
+        return response()->json($data);
     }
 
     /**
@@ -26,7 +27,7 @@ class PelangganController extends Controller
     public function create(Request $request)
     {
         $this->validate($request,[
-            'pelanggan'=>'required|unique:kategoris',
+            'pelanggan'=>'required|unique:pelanggans',
             'alamat'=>'required',
             'telp'=>'required|numeric',
         ]);
@@ -52,11 +53,12 @@ class PelangganController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Pelanggan  $pelanggan
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response $id
      */
-    public function show(Pelanggan $pelanggan)
+    public function show($id )
     {
-        //
+        $data=Pelanggan::where('idpelanggan', $id)->first();
+        return response()->json($data);
     }
 
     /**

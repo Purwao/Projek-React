@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
 
 class LoginController extends Controller
 {
@@ -18,17 +20,18 @@ class LoginController extends Controller
 
     public function register(Request $request)
     {
-        $data = [
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-            'level' => $request->input('level'),
-            'api_token' => '123',
-            'status' => 1,
-            'relasi' => $request->input('relasi'),
-        ];
+            $data = [
+                'email' => $request->input('email'),
+                'password' => Hash::make($request->input('password')),
+                'level' => $request -> input('level'),
+                'api_token' => '123',
+                'status' => 1,
+                'relasi' => $request-> input('relasi'),
+            ];
 
-        User::create($data);
-        return response()->json($data);
+            User::create($data);
+            return response()->json($data);
+
     }
 
     public function login(Request $request)
@@ -40,32 +43,32 @@ class LoginController extends Controller
 
         if (isset($user)) {
             if ($user->status === 1) {
-                    if ( Hash::check( $password, $user->password) ) {
+                    if (Hash::check($password, $user->password)){
                         $token = Str::random(40);
                         $user->update([
                             'api_token' => $token,
                         ]);
 
                         return response()->json([
-                            'pesan' => 'Login Berhasil',
+                            'pesan' => 'YOU Logged in as the mighty:',
                             'token' => $token,
                             'data' => $user,
                         ], 200);
                     } else {
                         return response()->json([
-                            'pesan' => 'Password salah',
+                            'pesan' => 'wrong password dumbas',
                             'data' => ''
                         ], 401);
                     }
                 } else {
                     return response()->json([
-                        'pesan' => 'Login Gagal',
+                        'pesan' => 'gagal!',
                         'data' => ''
                     ], 402);
                 }
         } else {
             return response()->json([
-                'pesan' => 'Email tidak terdaftar',
+                'pesan' => '???',
                 'data' => ''
             ], 403);
         }

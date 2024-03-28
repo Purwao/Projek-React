@@ -15,10 +15,11 @@ class UserMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if($request->user<>'admin'){
+        if($request->user <> 'admin'){
             return redirect('login');
         }
 
         return $next($request);
     }
+
 }
