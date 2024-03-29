@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Belajar Axios</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -28,10 +28,9 @@
         </div>
     </div>
 
-    <script type="module">
+    <script>
         const url = "http://127.0.0.1:8000/api/"
         const token ="9HROz90sbZJE0XX7EatXCKqHagalXd0mtapv2bA9"
-
 
         //axios({
         //    method: 'get',
@@ -45,15 +44,16 @@
             baseURL: url,
             headers: {
                 'api_token' : token,
+               
             }
         })
 
-        function tampilkan(param){
-            document.querySelector('#out').innerHTML = param
-        }
-
-        document.querySelector('#get').addEventListener('click', function(){
+        document.getElementById("get").addEventListener('click', function(){
             link.get('pelanggan').then(res=>{
+
+                console.log(res.data);
+
+                // console.log("tes");
                 
                 let tampil = `<table class="table table-bordered w-60 mt-4">
                     <tr>
@@ -63,17 +63,55 @@
                         <th>Telepon</th>
                     </tr>`
                 
-                res.data.forEach(el => {
+             for (let i = 0; i < res.data.length; i++) {
+                    let el = res.data[i];
                     tampil += `<tr>
                         <td>${el.idpelanggan}</td>
                         <td>${el.pelanggan}</td>
                         <td>${el.alamat}</td>
                         <td>${el.telp}</td>
-                    </tr>`
-                })
+                    </tr>`;
+                }
 
                 tampil += `</table>`
                 
-                document.querySelector('#out').innerHTML = tampil
+                document.getElementById("out").innerHTML = tampil
+            })
+            // console.log('berhasil');
+        })
+
+        document.getElementById("show").addEventListener('click', function(){
+            id=6;
+            link.get('/pelanggan/'+id).then(res=>{
+                
+                console.log(res.data);
+
+                // console.log("tes");
+                
+                let tampil = `<table class="table table-bordered w-60 mt-4">
+                    <tr>
+                        <th>Id</th>
+                        <th>Pelanggan</th>
+                        <th>Alamat</th>
+                        <th>Telepon</th>
+                    </tr>`
+                
+           
+
+                    for (let i = 0; i < res.data.length; i++) {
+                            let el = res.data[i];
+                            tampil += `<tr>
+                                <td>${el.idpelanggan}</td>
+                                <td>${el.pelanggan}</td>
+                                <td>${el.alamat}</td>
+                                <td>${el.telp}</td>
+                            </tr>`;
+                        }
+
+                tampil += `</table>`
+                
+                document.getElementById("out").innerHTML = tampil
             })
         })
+        </script>
+    
