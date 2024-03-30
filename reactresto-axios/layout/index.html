@@ -81,37 +81,20 @@
         })
 
         document.getElementById("show").addEventListener('click', function(){
-            id=6;
-            link.get('/pelanggan/'+id).then(res=>{
-                
-                console.log(res.data);
-
-                // console.log("tes");
-                
-                let tampil = `<table class="table table-bordered w-60 mt-4">
-                    <tr>
-                        <th>Id</th>
-                        <th>Pelanggan</th>
-                        <th>Alamat</th>
-                        <th>Telepon</th>
-                    </tr>`
-                
-           
-
-                    for (let i = 0; i < res.data.length; i++) {
-                            let el = res.data[i];
-                            tampil += `<tr>
-                                <td>${el.idpelanggan}</td>
-                                <td>${el.pelanggan}</td>
-                                <td>${el.alamat}</td>
-                                <td>${el.telp}</td>
-                            </tr>`;
-                        }
-
-                tampil += `</table>`
-                
-                document.getElementById("out").innerHTML = tampil
+            let id=203;
+           link.get('pelanggan/'+id).then(response => {
+                const data = response.data;
+                let tampil = `<table class="table table-bordered w-60 mt-4 text-center">`;
+                    for (let key in data) {
+                    tampil += "<tr><th>" + key + "</th><td>" + data[key] + "</td></tr>";
+                    }
+                tampil += "</table>";
+                document.getElementById('out').innerHTML = tampil;
             })
+            .catch(error => {
+                console.error(error);
+            }); 
         })
+        //"show" saya modifikasi karena di saya value "show" merupakan object, bukan sebuah array yg sama seperti "get". terimakasih
         </script>
     
