@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belajar Axios</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Export js</title>
 </head>
 <body>
     <div class="container">
@@ -28,73 +27,24 @@
         </div>
     </div>
 
-    <script>
-        const url = "http://127.0.0.1:8000/api/"
-        const token ="9HROz90sbZJE0XX7EatXCKqHagalXd0mtapv2bA9"
+    <script type="module">
+        // import {get} from '/reactresto-axios/layout/function.js'
+        // import {show} from '/reactresto-axios/layout/function.js'
+        // import {data} from '/reactresto-axios/layout/function.js'
+        // get()
+        // show()
+        // console.log(data)
+            import {get} from '/reactresto-axios/layout/get.js'
+            import {show} from '/reactresto-axios/layout/show.js'
+            import {create} from '/reactresto-axios/layout/create.js'
+            import {del} from '/reactresto-axios/layout/delete.js'
+            import {update} from '/reactresto-axios/layout/update.js'
+            document.getElementById('get').addEventListener('click',get);
+            document.getElementById('show').addEventListener('click',show);
+            document.getElementById('post').addEventListener('click',create);
+            document.getElementById('update').addEventListener('click',update);
+            document.getElementById('delete').addEventListener('click',del);
 
-        //axios({
-        //    method: 'get',
-        //    url: url,
-        //    headers: {
-        //        'api_token' : token,
-        //    },
-        //}).then(res=>console.log(res.data))
-
-        const link = axios.create({
-            baseURL: url,
-            headers: {
-                'api_token' : token,
-               
-            }
-        })
-
-        document.getElementById("get").addEventListener('click', function(){
-            link.get('pelanggan').then(res=>{
-
-                console.log(res.data);
-
-                // console.log("tes");
-                
-                let tampil = `<table class="table table-bordered w-60 mt-4">
-                    <tr>
-                        <th>Id</th>
-                        <th>Pelanggan</th>
-                        <th>Alamat</th>
-                        <th>Telepon</th>
-                    </tr>`
-                
-             for (let i = 0; i < res.data.length; i++) {
-                    let el = res.data[i];
-                    tampil += `<tr>
-                        <td>${el.idpelanggan}</td>
-                        <td>${el.pelanggan}</td>
-                        <td>${el.alamat}</td>
-                        <td>${el.telp}</td>
-                    </tr>`;
-                }
-
-                tampil += `</table>`
-                
-                document.getElementById("out").innerHTML = tampil
-            })
-            // console.log('berhasil');
-        })
-
-        document.getElementById("show").addEventListener('click', function(){
-            let id=203;
-           link.get('pelanggan/'+id).then(response => {
-                const data = response.data;
-                let tampil = `<table class="table table-bordered w-60 mt-4 text-center">`;
-                    for (let key in data) {
-                    tampil += "<tr><th>" + key + "</th><td>" + data[key] + "</td></tr>";
-                    }
-                tampil += "</table>";
-                document.getElementById('out').innerHTML = tampil;
-            })
-            .catch(error => {
-                console.error(error);
-            }); 
-        })
-        //"show" saya modifikasi karena di saya value "show" merupakan object, bukan sebuah array yg sama seperti "get". terimakasih
-        </script>
-    
+    </script>
+</body>
+</html>

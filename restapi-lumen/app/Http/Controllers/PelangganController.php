@@ -34,7 +34,14 @@ class PelangganController extends Controller
 
         $pelanggans= Pelanggan::create($request->all());
         // return response()->json($request);
-        return response()->json($pelanggans);
+
+        if ($pelanggans) {
+            return response()->json([
+                "msg"=>"datamu sudah masuk!",
+                "data"=>$pelanggans,
+            ]);
+        }
+
     }
 
 
@@ -81,8 +88,14 @@ class PelangganController extends Controller
      */
     public function update(Request $request, Pelanggan $pelanggan, $id)
     {
-        Pelanggan::where('idpelanggan', $id)->update($request->all());
-        return response()->json("data sudah update");
+       $pelanggans= Pelanggan::where('idpelanggan', $id)->update($request->all());
+
+        if ($pelanggans) {
+            return response()->json([
+                "msg"=>"sampun di upd",
+                "data"=>$pelanggans
+            ]);
+        }
     }
 
     /**
@@ -93,7 +106,14 @@ class PelangganController extends Controller
      */
     public function destroy($id)
     {
-        Pelanggan::where('idpelanggan',$id)->delete();
-        return response()->json('sampun di delet');
+        $pelanggans= Pelanggan::where('idpelanggan',$id)->delete();
+
+        if ($pelanggans) {
+            return response()->json([
+                "msg"=>"sampun dilet",
+
+            ]);
+        }
+
     }
 }

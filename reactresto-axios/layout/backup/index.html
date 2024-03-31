@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Axios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-4">
+            <div>
+                <h1 class="display-4">Belajar Axios</h1>
+            </div>
+            <div>
+                <button class="btn btn-primary" id="get">Get</button>
+                <button class="btn btn-secondary" id="show">Show</button>
+                <button class="btn btn-success" id="post">Post</button>
+                <button class="btn btn-warning" id="update">Update</button>
+                <button class="btn btn-danger" id="delete">Delete</button>
+            </div>
+            <hr class="mt-4">
+        </div>
+        <div class="row">
+            <div id="out"></div>
+        </div>
+    </div>
+
+    <script>
+        const url = "http://127.0.0.1:8000/api/"
+        const token ="9HROz90sbZJE0XX7EatXCKqHagalXd0mtapv2bA9"
+
+        //axios({
+        //    method: 'get',
+        //    url: url,
+        //    headers: {
+        //        'api_token' : token,
+        //    },
+        //}).then(res=>console.log(res.data))
+
+        const link = axios.create({
+            baseURL: url,
+            headers: {
+                'api_token' : token,
+               
+            }
+        })
+
+        document.getElementById("get").addEventListener('click', function(){
+            link.get('pelanggan').then(res=>{
+
+                console.log(res.data);
+
+                // console.log("tes");
+                
+                let tampil = `<table class="table table-bordered w-60 mt-4">
+                    <tr>
+                        <th>Id</th>
+                        <th>Pelanggan</th>
+                        <th>Alamat</th>
+                        <th>Telepon</th>
+                    </tr>`
+                
+             for (let i = 0; i < res.data.length; i++) {
+                    let el = res.data[i];
+                    tampil += `<tr>
+                        <td>${el.idpelanggan}</td>
+                        <td>${el.pelanggan}</td>
+                        <td>${el.alamat}</td>
+                        <td>${el.telp}</td>
+                    </tr>`;
+                }
+
+                tampil += `</table>`
+                
+                document.getElementById("out").innerHTML = tampil
+            })
+            // console.log('berhasil');
+        })
+
+        document.getElementById("show").addEventListener('click', function(){
+            let id=203;
+           link.get('pelanggan/'+id).then(response => {
+                const data = response.data;
+                console.log(response.data)
+                let tampil = `<table class="table table-bordered w-60 mt-4 text-center">`;
+                    for (let key in data) {
+                    tampil += "<tr><th>" + key + "</th><td>" + data[key] + "</td></tr>";
+                    }
+                tampil += "</table>";
+                document.getElementById('out').innerHTML = tampil;
+            })
+            .catch(error => {
+                console.error(error);
+            }); 
+        })
+        //"show" saya modifikasi karena di saya, value "show" merupakan object, bukan sebuah array yg sama seperti "get". terimakasih
+
+        document.getElementById("post").addEventListener('click',function(){
+            let datapelanggan={
+                pelanggan : "Black Swan",
+                alamat    : "Garden Of Recollection",
+                telp      : "09812443"
+            }
+
+            link.post('/pelanggan',datapelanggan).then(response=>{
+                // console.log(response.data);
+                // console.log(response.data.msg);
+
+                let show=`<h1>${response.data.msg}</h1>`
+                show+=`<h1>dengan nama pelanggan : ${response.data.data.pelanggan}</h1>`
+
+                document.getElementById("out").innerHTML=show;
+          })       
+        })
+        
+        document.getElementById("delete").addEventListener('click',function(){
+            let id=196;
+
+            link.delete('pelanggan/'+id).then(res=>{
+                console.log(res);
+                let show=`<h1>${res.data.msg}</h1>`
+                show+=`<h1>delete dengan id pelanggan : ${id}</h1>`
+
+                document.getElementById("out").innerHTML=show;
+            })
+            
+        })
+
+        
+        document.getElementById("update").addEventListener('click', function(){
+            let data = {
+                pelanggan : 'Lawrens',
+                alamat : 'Mond',
+                telp : '020205132342'
+            }
+            let id=207;
+
+            link.put(`pelanggan/`+id, data).then(res=>{
+                console.log(res)
+                let show = `<h1>${res.data.msg}</h1>`
+                 show+= `<h1>mengupdate data dengan id=${id}</h1>`
+
+                 document.getElementById("out").innerHTML=show;
+            })
+        })
+
+        </script>
+    
