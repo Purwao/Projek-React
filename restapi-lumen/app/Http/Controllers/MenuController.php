@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -14,8 +15,14 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $data= Menu::all();
-        return response ()->json($data);
+        // $data= Menu::all();
+        // return response ()->json($data);
+        $data = DB::table('menus')
+            ->join('kategoris','kategoris.idkategori', '=', 'menus.idkategori')
+            ->select('menus.*','kategoris.kategori')
+            ->get();
+
+        return response()->json($data);
     }
 
     /**
@@ -120,6 +127,11 @@ class MenuController extends Controller
     public function destroy($id)
     {
         $data=Menu::where('idmenu',$id)->delete();
-        return response()->json("The memory became vague overtime, so does the data. ");
+        if($data){
+            return response()->json([
+                "msg"=>"The memory became vague overtime, so does the data."
+            ]);
+        }
+
     }
 }

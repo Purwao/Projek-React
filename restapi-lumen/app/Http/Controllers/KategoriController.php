@@ -35,7 +35,13 @@ class KategoriController extends Controller
 
         $Kategoris= Kategori::create($request->all());
         // return response()->json($request);
-        return response()->json($Kategoris);
+        // return response()->json($Kategoris);
+        if ($Kategoris) {
+            return response()->json([
+                'msg' => 'Data saved !',
+                'kategori' => $Kategoris
+            ]);
+        }
     }
 
     /**

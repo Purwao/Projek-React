@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   return (
-    <div className="container text-center">
+    <div className="container text-justify">
     <BrowserRouter>
       <Routes>
         <Route path="/" Component={Front} />

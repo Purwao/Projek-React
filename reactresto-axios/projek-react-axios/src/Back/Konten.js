@@ -8,7 +8,7 @@ import Pelanggan from "./Pelanggan";
 function Konten() {
     const { konten } = useParams();
     let tampil;
-    console.log(konten);
+    // console.log(konten);
 
     if (konten === "kategori") {
         tampil = <Kategori />

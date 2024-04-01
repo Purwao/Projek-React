@@ -43,7 +43,7 @@ $router ->group(['prefix'=>'api', 'middleware'=>'auth'], function ($router) {
         $router->delete('/pelanggan/{id}', ['uses' => 'PelangganController@destroy']);
 
 
-        $router->get('menu', ['uses' => 'MenuController@index']);
+        $router->get('/menu', ['uses' => 'MenuController@index']);
         $router->get('/menu/{id}',['uses' => 'MenuController@show']);
         $router->post('/menu', ['uses' => 'MenuController@create']);
         $router->put('/menu/{id}', ['uses' => 'MenuController@update']);

@@ -5,7 +5,7 @@ export default function Side() {
     const url=useResolvedPath("").pathname;
   return (
     <div>
-      <div className="d-flex" id="wrapper">
+      <div className="d-flex mt-4" id="wrapper">
         <div
           className="bg-light border-right card"
           style={{ width: "18rem" }}
