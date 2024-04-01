@@ -12,7 +12,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" Component={Front} />
-        <Route path="/admin" Component={Back}/>
+        <Route path="/admin/*" Component={Back}/>
       </Routes>
     </BrowserRouter>
     </div>

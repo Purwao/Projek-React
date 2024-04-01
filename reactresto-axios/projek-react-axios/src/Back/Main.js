@@ -1,20 +1,18 @@
 import React from 'react'
-import {  Route, Routes, useResolvedPath } from 'react-router-dom'
+import {  Route, Routes,} from 'react-router-dom'
 import Konten from './Konten'
 
 function Main() {
 
-  const url=useResolvedPath("").pathname
+ 
 
   return (
     <div>
       <Routes>
-        <Route path={`${url}:konten`} Component={Konten}></Route>
+        <Route path=':konten' Component={Konten}></Route>
       </Routes>
-        
-    </div>
+   </div>
   )
-
 }
 
 export default Main

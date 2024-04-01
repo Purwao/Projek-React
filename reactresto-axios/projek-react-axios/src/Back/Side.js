@@ -13,32 +13,32 @@ export default function Side() {
         >
           <div className="sidebar-heading card-header header"><h4>Sidebar</h4></div>
           <div className="list-group list-group-flush">
-            <Link to={`${url}kategori`}>
+            <Link to={`${url}/kategori`}>
               <li className="list-group-item list-group-item-action bg-light">
                 Kategori
               </li>
             </Link>
-            <Link to={`${url}menu`}>
+            <Link to={`${url}/menu`}>
               <li className="list-group-item list-group-item-action bg-light">
                 Menu
               </li>
             </Link>
-            <Link to={`${url}pelanggan`}>
+            <Link to={`${url}/pelanggan`}>
               <li className="list-group-item list-group-item-action bg-light">
                 Pelanggan
               </li>
             </Link>
-            <Link to={`${url}order`}>
+            <Link to={`${url}/order`}>
               <li className="list-group-item list-group-item-action bg-light">
                 Order
               </li>
             </Link>
-            <Link to={`${url}orderdetail`}>
+            <Link to={`${url}/orderdetail`}>
               <li className="list-group-item list-group-item-action bg-light">
                 Order Detail
               </li>
             </Link>
-            <Link to={`${url}admin-page`}>
+            <Link to={`${url}/admin-page`}>
               <li className="list-group-item list-group-item-action bg-light">
                 Admin
               </li>

@@ -10,7 +10,6 @@ import Siswa from './pages/Siswa';
 import Menu from './pages/Menu';
 
 
-
 function App() {
   return (
       <BrowserRouter>

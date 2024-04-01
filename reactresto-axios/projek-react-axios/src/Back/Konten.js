@@ -1,5 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import Kategori from "./Kategori";
+import Menu from "./Menu";
+import Pelanggan from "./Pelanggan";
 
 
 function Konten() {
@@ -8,13 +11,13 @@ function Konten() {
     console.log(konten);
 
     if (konten === "kategori") {
-        tampil = "kategori"
+        tampil = <Kategori />
     }
     if (konten === "menu") {
-        tampil = "menu"
+        tampil = <Menu />
     }
     if (konten === "pelanggan") {
-        tampil = "pelanggan"
+        tampil = <Pelanggan />
     }
     if (konten === "order") {
         tampil = "order"
@@ -26,9 +29,9 @@ function Konten() {
 
 
     return (
-        <h2>
-            tampil
-        </h2>
+        <div>
+            {tampil}
+        </div>
     
     );
 
