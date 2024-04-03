@@ -39,38 +39,26 @@ class MenuController extends Controller
         'harga' => 'required|numeric',
     ]);
 
-    // Check if file is present in the request
-    if ($request->hasFile('gambar')) {
-        $namagambar = $request->file('gambar')->getClientOriginalName();
-        $request->file('gambar')->move('upload', $namagambar);
+    $namagambar = $request->file('gambar')->getClientOriginalName();
+    $request->file('gambar')->move('upload', $namagambar);
 
-        $data = [
-            'idkategori' => $request->input('idkategori'),
-            'menu' => $request->input('menu'),
-            'gambar' => url('upload/', $namagambar),
-            'harga' => $request->input('harga'),
-        ];
+    $data = [
+        'idkategori' => $request->input('idkategori'),
+        'menu' => $request->input('menu'),
+        'gambar' => url('upload/', $namagambar),
+        'harga' => $request->input('harga'),
+    ];
 
-        $menu = Menu::create($data);
+    $menu = Menu::create($data);
 
-        if ($menu) {
-            return response()->json([
-                'status' => 201,
-                'pesan' => 'Data menu berhasil ditambahkan',
-            ]);
-        } else {
-            return response()->json([
-                'status' => 400,
-                'pesan' => 'Gagal menambahkan data menu',
-            ]);
-        }
-    } else {
+    if ($menu) {
         return response()->json([
-            'status' => 400,
-            'pesan' => 'Gambar tidak ditemukan dalam request',
+            'status' => 201,
+            'msg' => 'Data menu berhasil ditambahkan',
         ]);
     }
 }
+
 
     /**
      * Store a newly created resource in storage.
@@ -91,7 +79,12 @@ class MenuController extends Controller
      */
     public function show($id)
     {
-        $data=Menu::where('idmenu',$id)->get();
+        $data = DB::table('menus')
+        ->join('kategoris','kategoris.idkategori','=','menus.idkategori')
+        ->select('menus.*','kategoris.kategori')
+        ->where('idmenu','=',$id)
+        ->get();
+
         return response()->json($data);
     }
 
@@ -113,9 +106,41 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+   public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'idkategori' => 'required|numeric',
+            'menu' => 'required',
+            'harga' => 'required|numeric',
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $namagambar = $request->file('gambar')->getClientOriginalName();
+            $request->file('gambar')->move('upload', $namagambar);
+            $data = [
+                'idkategori' => $request->input('idkategori'),
+                'menu' => $request->input('menu'),
+                'gambar' => url('upload/', $namagambar),
+                'harga' => $request->input('harga'),
+            ];
+        } else {
+            $data = [
+                'idkategori' => $request->input('idkategori'),
+                'menu' => $request->input('menu'),
+                'harga' => $request->input('harga'),
+            ];
+        }
+
+
+        $menu = Menu::where('idmenu', $id)->update($data);
+
+        if ($menu) {
+            return response()->json(
+        [
+            'msg' => 'data has been updated succesfully'
+        ]
+            );
+        }
     }
 
     /**

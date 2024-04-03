@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Kategori from "./Kategori";
 import Menu from "./Menu";
 import Pelanggan from "./Pelanggan";
+import Order from "./Order";
 
 
 function Konten() {
@@ -20,7 +21,7 @@ function Konten() {
         tampil = <Pelanggan />
     }
     if (konten === "order") {
-        tampil = "order"
+        tampil = <Order />
     }
     if (konten === "orderdetail") {
         tampil = "orderdetail"
