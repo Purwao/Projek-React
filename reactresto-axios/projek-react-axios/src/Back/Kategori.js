@@ -116,7 +116,7 @@ export default function Kategori() {
         </div>
       </div>
       <div className="row">
-        <table className="mt-4 table table-striped table-white">
+        <table className="mt-4 table table-striped">
           <thead>
             <tr>
               <th>Nomor</th>
@@ -135,13 +135,13 @@ export default function Kategori() {
                 <td>{value.keterangan}</td>
                 <td>{value.idkategori}</td>
                 <td
-                  className="btn btn-outline-danger"
+                  className=" text-light bg-secondary"
                   onClick={() => del(value.idkategori)}
                 >
-                  Hapus
+                  <b>Hapus</b>
                 </td>
                 <td
-                  className="btn btn-outline-warning"
+                  className="btn btn-success"
                   onClick={() => ubah(value.idkategori)}
                 >
                   Ubah

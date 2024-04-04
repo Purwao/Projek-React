@@ -22,13 +22,15 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router -> post('api/register',['uses'=>'LoginController@register']);
 
-$router -> post('api/login',['uses'=>'LoginController@login']);
 
 // $router->get('api/kategori',['uses'=>'KategoriController@index']);
 
 $router ->group(['prefix'=>'api', 'middleware'=>'auth'], function ($router) {
+
+    $router -> post('register',['uses'=>'LoginController@register']);
+
+    $router -> post('login',['uses'=>'LoginController@login']);
 
         $router->get('/kategori',['uses'=>'KategoriController@index']);
         $router->get('/kategori/{id}',['uses'=>'KategoriController@show']);
@@ -50,7 +52,14 @@ $router ->group(['prefix'=>'api', 'middleware'=>'auth'], function ($router) {
         $router->delete('/menu/{id}', ['uses' => 'MenuController@destroy']);
 
         $router->get('/order', ['uses' => 'OrderController@index']);
+        $router->get('/order/{a}/{b}', ['uses' => 'OrderController@show']);
         $router->post('/order/{id}', ['uses' => 'OrderController@update']);
+
+        $router->get('/detail/{a}/{b}', ['uses' => 'DetailController@show']);
+
+        $router->get('/user', ['uses' => 'LoginController@index']);
+        $router->put('/user/{id}', ['uses' => 'LoginController@update']);
+
     });
 
 

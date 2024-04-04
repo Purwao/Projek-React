@@ -14,7 +14,6 @@ class LoginController extends Controller
     public function index()
     {
         $data = User::where('level', '<>', 'pelanggan')->get();
-
         return response()->json($data);
     }
 
@@ -62,7 +61,7 @@ class LoginController extends Controller
                     }
                 } else {
                     return response()->json([
-                        'pesan' => 'gagal!',
+                        'pesan' => 'i think u are banned lil guy',
                         'data' => ''
                     ], 402);
                 }
@@ -83,4 +82,6 @@ class LoginController extends Controller
             return response()->json("Mengupdate user dengan ID $id", 201);
         }
     }
+
+
 }

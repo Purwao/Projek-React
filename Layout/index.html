@@ -3,24 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Layout for chat app</title>
-    <link rel="stylesheet" href="./bootstrap-5.3.1-dist/css/bootstrap.min.css">
+    <title>Delta</title>
+    <link href="/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+       .navbar-brand{
+        font-size:xx-large;
+        font-family: Tahoma;
+       }
+    </style>
 </head>
 <body>
-    <div class="nav bg-danger text-center" style="height: 4rem;">
-           Brand, Nav, dll
-    </div>
-    <div class="d-flex" >
-        <div class="col-4 d-col">
-         <div class="bg-success text-center" style="height: 8vh;">Searchbar User</div>
-         <div class="bg-warning text-center" style="height: 82vh;">List User</div>
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <h1><a class="navbar-brand" href="#">Delta</a></h1>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </form>
+                    <button class="btn btn-primary" type="button">Login</button>
+                </div>
+            </nav>
+            <ul class="nav justify-content-center trending">
+                <li class="nav-item"><a class="nav-link active" href="#">Ikan Bandeng</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Ikan Gurame</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Ikan Lele</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Udang</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Kepiting</a></li>
+            </ul>
         </div>
-        <div class="col-8" >
-            <div class="bg-primary text-center"  style="height: 8vh;">User Profile</div>
-            <div class="bg-info text-center" style="height: 73vh;">Message Content</div>
-            <div class="bg-black text-white text-center" style="height: 8vh;">Input chat</div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card adv">
+                    <div class="card-body">
+                        <h5 class="card-title">Advertisement</h5>
+                        <img src="/img/advertisement.png" class="img-fluid" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-12 mt-0">
+                        <div class="card auction">
+                            <div class="card-body">
+                                <h5>Ikuti Pelelangan Ikan Sekarang !!!</h5>
+                                <img src="/img/auction.png" class="img-fluid" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-0">
+                        <div class="card auction">
+                            <div class="card-body">
+                                <h5>Produk Unggulan</h5>
+                                <div class="row">
+                                    <div class="produk-1 col-6"><h5>Ikan Laut</h5></div>
+                                    <div class="produk-2 col-6"><h5>Ikan Tambak</h5></div>
+                                    <div class="produk-3 col-6"><h5>Kepiting</h5></div>
+                                    <div class="produk-4 col-6"><h5>Udang   </h5></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
 </body>
 </html>

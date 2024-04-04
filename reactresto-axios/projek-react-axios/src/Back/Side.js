@@ -13,36 +13,55 @@ export default function Side() {
         >
           <div className="sidebar-heading card-header header"><h4>Sidebar</h4></div>
           <div className="list-group list-group-flush">
+
             <Link to={`${url}/kategori`}>
-              <li className="list-group-item list-group-item-action bg-light">
-                Kategori
-              </li>
+            {
+                            ( sessionStorage.getItem('level') == 'admin' ) ? 
+                            (<li className="list-group-item list-group-item-action bg-light">Panel Kategori</li>) : 
+                            ""
+                        }
             </Link>
+
             <Link to={`${url}/menu`}>
-              <li className="list-group-item list-group-item-action bg-light">
-                Menu
-              </li>
+            {
+                            ( sessionStorage.getItem('level') == 'admin' ) ? 
+                            (<li className="list-group-item list-group-item-action bg-light">Panel Menu</li>) : 
+                            ""
+                        }
             </Link>
+
             <Link to={`${url}/pelanggan`}>
-              <li className="list-group-item list-group-item-action bg-light">
-                Pelanggan
-              </li>
+            {
+                            ( sessionStorage.getItem('level') == 'admin' ) ? 
+                            (<li className="list-group-item list-group-item-action bg-light">Panel pelanggan</li>) : 
+                            ""
+                        }
             </Link>
+
             <Link to={`${url}/order`}>
-              <li className="list-group-item list-group-item-action bg-light">
-                Order
-              </li>
+            {
+                            ( sessionStorage.getItem('level') == 'admin'|| sessionStorage.getItem('level')=='kasir') ? 
+                            (<li className="list-group-item list-group-item-action bg-light">Panel Order</li>) : 
+                            ""
+                        }
             </Link>
+
             <Link to={`${url}/orderdetail`}>
-              <li className="list-group-item list-group-item-action bg-light">
-                Order Detail
-              </li>
+            {
+                            ( sessionStorage.getItem('level') == 'admin' ||  sessionStorage.getItem('level') == 'koki' || sessionStorage.getItem('level')=='kasir' ) ? 
+                            (<li className="list-group-item list-group-item-action bg-light">Panel Order Detail</li>) : 
+                            ""
+                        }
             </Link>
-            <Link to={`${url}/admin-page`}>
-              <li className="list-group-item list-group-item-action bg-light">
-                Admin
-              </li>
+
+            <Link to={`${url}/user-admin`}>
+            {
+                            ( sessionStorage.getItem('level') == 'admin' ) ? 
+                            (<li className="list-group-item list-group-item-action bg-light">Panel Pengguna</li>) : 
+                            ""
+                        }
             </Link>
+            
           </div>
         </div>
       </div>

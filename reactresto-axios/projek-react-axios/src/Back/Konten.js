@@ -4,6 +4,8 @@ import Kategori from "./Kategori";
 import Menu from "./Menu";
 import Pelanggan from "./Pelanggan";
 import Order from "./Order";
+import Detail from "./Detail";
+import User from "./User";
 
 
 function Konten() {
@@ -24,7 +26,10 @@ function Konten() {
         tampil = <Order />
     }
     if (konten === "orderdetail") {
-        tampil = "orderdetail"
+        tampil = <Detail></Detail>
+    }
+    if (konten === "user-admin") {
+        tampil = <User></User>
     }
     
 

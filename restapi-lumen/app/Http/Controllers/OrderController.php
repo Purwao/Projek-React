@@ -16,12 +16,12 @@ class OrderController extends Controller
     public function index()
     {
         $data = DB::table('orders')
-        ->join('pelanggans', 'pelanggans.idpelanggan', '=', 'orders.idpelanggan')
-        ->select('orders.*', 'pelanggans.*')
-        ->orderBy('orders.status')
+        ->join('pelanggans','pelanggans.idpelanggan','=','orders.idpelanggan')
+        ->select('orders.*','pelanggans.*')
+        ->orderBy('orders.status','asc')
         ->get();
 
-        return response()->json($data, 200);
+return response()->json($data);
     }
 
     /**
@@ -51,9 +51,18 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($a ,$b)
     {
-        //
+        $data = DB::table('orders')
+                ->join('pelanggans','pelanggans.idpelanggan','=','orders.idpelanggan')
+                ->select('orders.*','pelanggans.*')
+                ->where('tglorder','>=',$a)
+                ->where('tglorder','<=',$b)
+                ->orderBy('orders.status','asc')
+                ->get();
+
+        return response()->json($data,200);
+
     }
 
     /**
@@ -92,7 +101,7 @@ class OrderController extends Controller
 
         if ($order) {
             return response()->json([
-                'pesan' => "order id $id membayar hal ini",
+                'msg' => "order id $id membayar hal ini",
                 'data' => $order
             ], 201);
         }

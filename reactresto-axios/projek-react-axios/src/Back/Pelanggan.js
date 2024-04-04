@@ -24,7 +24,7 @@ export default function Pelanggan() {
               <th>Alamat</th>
               <th>Kontak</th>
               <th>Hapus</th>
-              <th>Ubah</th>
+             
             </tr>
           </thead>
           <tbody>
@@ -40,12 +40,7 @@ export default function Pelanggan() {
                 >
                   Hapus
                 </td>
-                {/* <td
-                  className="btn btn-outline-warning"
-                  onClick={() => ubah(value.idkategori)}
-                >
-                  Ubah
-                </td>  */}
+               
               </tr>
             ))}
           </tbody>

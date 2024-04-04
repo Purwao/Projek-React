@@ -10,6 +10,8 @@ function UseDel(url) {
             setPesan(res.data.msg)
         }
 
+        
+
         // await link.delete('/pelanggan/'+id).then(res=>{
         //     setPesan(res.data.msg)
         //     console.log(res.data)
