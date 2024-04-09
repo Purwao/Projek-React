@@ -1,39 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta</title>
     <link href="/bootstrap-5.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-       .navbar-brand {
-           font-size: xx-large;
-           font-family: Tahoma;
-       }
-       .produk {
-           list-style-type: georgian;
-           display: flex;
-           height: 140px; /* Adjust the height as needed */
-           align-items: center; /* Align items vertically in the center */
-       }
-       .item {
-           flex-grow: 1;
-           flex-basis: 200;
-       }
-       .advertisement-page {
-           background-color: #007bff; /* Change to the desired primary color */
-       }
-       .auction {
-           margin-bottom: 20px; /* Adjust the margin as needed */
-       }
-       .bestseller {
-           height: 170px;
-       }
+        .navbar-brand {
+            font-size: xx-large;
+            font-family: Tahoma;
+        }
+
+        body {
+            background-color: slateblue;
+        }
+
+        .produk {
+            list-style-type: georgian;
+            display: flex;
+            height: 140px;
+            /* Adjust the height as needed */
+            align-items: center;
+            /* Align items vertically in the center */
+        }
+
+        .item {
+            flex-grow: 1;
+            flex-basis: 200;
+        }
+
+        .advertisement-page {
+            background-color: #007bff;
+            /* Change to the desired primary color */
+        }
+
+        .auction {
+            margin-bottom: 20px;
+            /* Adjust the margin as needed */
+        }
+
+        .bestseller {
+            height: 320px;
+        }
+
+        .horizontal-scroll {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+        }
+       
+
+        .horizontal-scroll .item {
+            min-width: 12rem;
+            margin-right: 20px;
+        }
     </style>
 </head>
+
 <body>
-    <div class="header">
-        <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+    <div class="header bg-info">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container">
                 <h1><a class="navbar-brand" href="#">Delta</a></h1>
                 <form class="d-flex">
@@ -44,11 +71,11 @@
             </div>
         </nav>
         <ul class="nav justify-content-center trending">
-            <li class="nav-item"><a class="nav-link active" href="#">Ikan Bandeng</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Ikan Gurame</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Ikan Lele</a></li>
+            <li class="nav-item"><a class=" text-white nav-link active" href="#">Penawaran Terbaru !</a></li>
+            <li class="nav-item"><a class="text-white nav-link" href="#">Produk Terbaru !</a></li>
+            <!-- <li class="nav-item"><a class="nav-link" href="#">Ikan Lele</a></li>
             <li class="nav-item"><a class="nav-link" href="#">Udang</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Kepiting</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Kepiting</a></li> -->
         </ul>
     </div>
 
@@ -77,12 +104,12 @@
                     <div class="col-md-12 mt-0">
                         <div class="card auction">
                             <div class="card-body">
-                                <h5>Trending !!!</h5>
+                                <h5></h5>
                                 <div class="row produk ">
-                                    <div class="produk-1 col-md-6"><a href="#">Ikan Laut</a></div>
-                                    <div class="produk-2 col-md-6"><a href="#">Ikan Tambak</a></div>
-                                    <div class="produk-3 col-md-6"><a href="#">Kepiting</a></div>
-                                    <div class="produk-4 col-md-6"><a href="#">Udang</a></div>
+                                    <div class="produk-1 col-md-6"><a href="#">Kategori</a></div>
+                                    <div class="produk-2 col-md-6"><a href="#">Produk Ekspor</a></div>
+                                    <div class="produk-3 col-md-6"><a href="#">Banyak Diminati</a></div>
+                                    <!-- <div class="produk-4 col-md-6"><a href="#">Udang</a></div> -->
                                 </div>
                             </div>
                         </div>
@@ -100,22 +127,230 @@
                 <h3 class="text-white text-center">BestSeller</h3>
             </div>
             <div class="col-8 ">
-               
-                    
-                       
-                           
-                       
-                      
-                  
-                    <!-- how do i fukin use overflow-->
+                <div class="row">
+                    <div class="horizontal-scroll mt-3">
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+                        <div class="card item" style="width: 12rem; border-radius: 20%;">
+                            <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Prices</h5>
+                                <a href="#" class="btn btn-primary">Buy here</a>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
 
-    <div>
-        <!-- Additional content -->
+
+    <!-- List IWAKKKK -->
+
+    <div class="container bg-tertiary mt-5">
+        <div class="row">
+            <div class="card col-4">
+                <div class="card-body">
+                    <h5 class="card-title">Filter Your FISHES !</h5>
+                </div>
+                <form action="">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Lingkungan Hidup</label>
+                        <select
+                            class="form-select form-select-lg"
+                            name=""
+                            id=""
+                        >
+                            <option selected>Air Laut </option>
+                            <option value="">Air Tawar</option>
+                            <option value="">Tambak</option>
+                            <option value="">Kapal Lawd</option>
+                        </select>
+                        <label for="" class="form-label">Ukuran Ikan</label>
+                        <select
+                            class="form-select form-select-lg"
+                            name=""
+                            id=""
+                        >
+                            <option selected>1-10 Cm</option>
+                            <option value="">11-20 Cm</option>
+                            <option value="">21-30 Cm</option>
+                            <option value="">>31 Cm</option>
+                        </select>
+                        <button
+                            type="submit"
+                            class="btn btn-primary mt-3"
+                        >
+                            Submit
+                        </button>
+                        
+                    </div>
+                    
+                </form>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-7 card">
+                <div class="card-body">
+                    <h5 class="card-title">List of Mighty Fishes</h5>
+                </div>
+                <div class="horizontal-scroll">
+                    <div class="card item" style="width: 12rem; border-radius: 20%;">
+                        <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Prices</h5>
+                            <a href="#" class="btn btn-primary">Buy here</a>
+                        </div>
+                    </div>
+                    <div class="card item" style="width: 12rem; border-radius: 20%;">
+                        <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Prices</h5>
+                            <a href="#" class="btn btn-primary">Buy here</a>
+                        </div>
+                    </div>
+                    <div class="card item" style="width: 12rem; border-radius: 20%;">
+                        <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Prices</h5>
+                            <a href="#" class="btn btn-primary">Buy here</a>
+                        </div>
+                    </div>
+                    <div class="card item" style="width: 12rem; border-radius: 20%;">
+                        <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Prices</h5>
+                            <a href="#" class="btn btn-primary">Buy here</a>
+                        </div>
+                    </div>
+                    <div class="card item" style="width: 12rem; border-radius: 20%;">
+                        <img class="img-thumbnail" src="/img/ikan1.jpeg" style="width: 12rem;" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Prices</h5>
+                            <a href="#" class="btn btn-primary">Buy here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>
