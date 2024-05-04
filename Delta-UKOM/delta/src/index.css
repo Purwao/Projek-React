@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* waves */
+.ocean {
+  height: 300px; /* change the height of the waves here */
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow-x: hidden; 
+  z-index: 0;
+}
+
+.wave {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E");
+  position: absolute;
+  width: 350%;
+  height: 100%;
+  animation: wave 10s -3s linear infinite;
+  transform: translate3d(0, 0, 0);
+  filter:drop-shadow(0px 0px 10rem #6cb0f8);
+  opacity: 0.5;
+}
+
+.wave:nth-of-type(2) {
+  bottom: 0;
+  animation: wave 18s linear reverse infinite;
+  opacity: 0.5;
+  filter: brightness(170%);
+}
+
+.wave:nth-of-type(3) {
+  bottom: 0;
+  animation: wave 5s linear infinite;
+  opacity: 0.5;
+  filter: contrast(150%);
+}
+
+
+@keyframes wave {
+    0% {transform: translateX(0);}
+    50% {transform: translateX(-25%);}
+    100% {transform: translateX(-50%);}
+}
+
+.senja {
+  background: linear-gradient(178deg, rgb(158, 166, 237), rgb(121, 180, 244), rgb(65, 179, 250), rgb(187, 200, 244));
+  background-size: 800% 800%;
+
+  -webkit-animation: AnimationName 36s ease-in-out infinite;
+  -moz-animation: AnimationName 36s ease-in-out infinite;
+  animation: AnimationName 36s ease-in-out infinite;
+}
+
+@-webkit-keyframes AnimationName {
+  0%{background-position:10% 0%}
+  50%{background-position:91% 100%}
+  100%{background-position:10% 0%}
+}
+@-moz-keyframes AnimationName {
+  0%{background-position:10% 0%}
+  50%{background-position:91% 100%}
+  100%{background-position:10% 0%}
+}
+@keyframes AnimationName {
+  0%{background-position:10% 0%}
+  50%{background-position:91% 100%}
+  100%{background-position:10% 0%}
+}
+
+
+.gradient {
+  position: relative;
+  padding: 0.5rem 1.5rem;
+  background-image: linear-gradient(to right, #48bb78, #87ceeb);
+  color: white;
+  font-weight: bold;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+ z-index: 1;
+}
+
+.gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(100deg,#94a6f6,#cad1ef ,#ffffff) ;
+  z-index: -1;
+  transition:  0.5s linear;
+  border-radius: 9999px;
+  opacity: 0;
+}
+
+.gradient:hover::before {
+  opacity: 1;
+}
+
+input {
+  width: 16rem; 
+  padding: 0.5rem 1rem;
+  background-color: rgba(255, 255, 255, 0.5); 
+  backdrop-filter: blur(8px);
+  border-radius: 9999px; 
+  color: #374151;
+  placeholder-color: #9CA3AF; 
+  border: none;
+  outline: none;
+  transition: ease-in-out 400ms;
+}
+
+form input:focus {
+  transform: scale(0.95);
+  box-shadow: 0 0 0 2px #2563eb; /* Equivalent to focus:ring-2 and focus:ring-blue-500 in Tailwind CSS */
+}
+.carousel {
+  position: relative;
+}
+
+.carousel {
+  width: 100%;
+}
+
+.prev {
+  position: absolute;
+  left: 0;
+  top: 15rem;
+  z-index: 1;
+  background-color: white;
+  padding: 5px;
+}
+
+.next {
+  position: absolute;
+  right: 0;
+  top: 15rem;
+  z-index: 1;
+  background-color: white;
+  padding: 5px;
+}
+
+
+
