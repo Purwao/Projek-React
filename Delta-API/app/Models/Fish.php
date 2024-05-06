@@ -12,5 +12,6 @@ class Fish extends Model
         'gambar',
         'hargaumum',
         'ukuranumum',
+        'bestseller',
     ];
 }

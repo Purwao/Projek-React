@@ -24,18 +24,21 @@ function Ikan() {
 
 
   function save(data) {
-    //LAWRENS HERE, FUKIN DONE WITH FORM DATA TYPE SHI AAAAAAAAAAAAAAA
+    // LAWRENS HERE, FUKIN DONE WITH FORM DATA TYPE SHI AAAAAAAAAAAAAAA
   const formData= new FormData();
   formData.append('ikan',data.ikan)
   formData.append('habitat',data.habitat)
   formData.append('gambar',data.gambar[0])
   formData.append('hargaumum',data.hargaumum)
   formData.append('ukuranumum',data.ukuranumum)
+  formData.append('bestseller',data.bestseller)
 
     link.post("fish", formData).then((res) => {
-      setPesan(res.data.msg);
-      console.log(pesan);
+      // setPesan(res.data.msg);
+      // console.log(pesan);
     });
+
+  console.log(data)
 
     reset();
   }
@@ -99,6 +102,17 @@ function Ikan() {
                   <option value="100">51++</option>
                 </select>
                 {errors.ukuranumum && (
+                <p classname="text-red-500">This Field Is Required bro!</p>
+                )}
+              </div>
+              <div classname="mb-4">
+                <label htmlfor="bestseller" classname="block mb-1">BestSeller</label>
+                <br />
+                <select classname="form-select" id="bestseller" {...register("bestseller", { required: true })} name="bestseller">
+                  <option value="1" selected>True</option>
+                  <option value="0">False</option>
+                </select>
+                {errors.bestseller && (
                 <p classname="text-red-500">This Field Is Required bro!</p>
                 )}
               </div>

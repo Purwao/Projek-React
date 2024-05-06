@@ -5,6 +5,7 @@ import Ikan from './Back/Ikan'
 import Login from './Login/Login'
 import Carousel from './components/Carousel'
 import Playground from './components/Playground'
+import Registrasi from './Login/Registrasi'
 
 
 function App() {
@@ -16,8 +17,9 @@ function App() {
                 <Route path='/market' Component={Market}></Route>
                 <Route path='/login' Component={Login}></Route>
                 <Route path='/admin' Component={Ikan}></Route>                        
-                <Route path='/car' Component={Carousel}></Route>                        
+                <Route path='/regist' Component={Registrasi}></Route>                        
                 <Route path='/tes' Component={Playground}></Route>
+                <Route path='/car' Component={Carousel}></Route>
             </Routes>
         </BrowserRouter>
 

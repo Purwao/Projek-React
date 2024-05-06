@@ -22,3 +22,7 @@ $router->get('/', function () use ($router) {
 $router->get('fish','FishController@index');
 $router->post('fish','FishController@create');
 $router->delete('fish/{id}','FishController@destroy');
+$router->get('bestseller','FishController@bestseller');
+
+$router->get('/customer','CustomersController@index');
+$router->post('/reg','CustomersController@create');

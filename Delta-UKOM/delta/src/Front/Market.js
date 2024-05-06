@@ -1,44 +1,26 @@
 import React, { useState } from "react";
-import img from "../photos/advertisement.png";
-// import im from "../photos/1714364828201.jpeg";
-// import i from "../photos/iklan.png";
+import Art1 from "../photos/Artboard 1.png";
+import Art2 from "../photos/Artboard 2.png";
+import Art3 from "../photos/Artboard 3.png";
 import UseGet from "../Axios/useGet";
+import Carousel from "../components/Carousel";
 
 function Market() {
   // Carousels
 
-  let adv = img;
-
-  const carousels = [adv, adv];
-
-  const [index, setIndex] = useState(0);
-
-  const onNext = () => {
-    console.log(carousels.length);
-
-    if (index < carousels.length - 1) {
-      let i = index + 1;
-      setIndex(i);
-    } else {
-      setIndex(0);
-    }
-  };
-
-  // const onPrev = () => {
-  //   if (index > 0 && index < carousels.length) {
-  //     let i = index - 1;
-  //     setIndex(i);
-  //   } else {
-  //     setIndex(carousels.length - 1);
-  //   }
-  // };
-
-  setInterval(onNext, 5000);
+  let adv1 = Art1;
+  let adv2 = Art2;
+  let adv3 = Art3;
 
   //Axioss
 
-  const [isi] = UseGet("/fish");
+  const [isi] = UseGet("/bestseller");
+  const [all] = UseGet("/fish")
   console.log(isi);
+
+  //SessionStorage
+
+  const emailsession=sessionStorage.getItem('email');
 
   return (
     <div>
@@ -73,27 +55,30 @@ function Market() {
                 Submit
               </button>
             </form>
-            <div>
+
+            {/* Pengecekan jika ada email session */}
+            {emailsession?(<div className="flex flex-row">
+              <h1 className="text-floralwhite font-serif font-light ">Logged in as: </h1><h1 className=" border-b-2 text-floralwhite font-serif font-light ">{sessionStorage.getItem("email")}</h1>
+            </div> ):null}
+            {emailsession?( <button className="font-serif h-28 w-28 bg-floralwhite text-deepkoamaru text-xl hover:bg-deepkoamaru hover:text-floralwhite transition duration-300 ease-in hover:border-floralwhite hover:border-2 ">
+                <i onClick={()=>{sessionStorage.removeItem('email')}}>Logout</i>
+              </button> ):null}
+            {!emailsession?( <div>
               <button className="font-serif h-28 w-28 bg-floralwhite text-deepkoamaru text-xl hover:bg-deepkoamaru hover:text-floralwhite transition duration-300 ease-in hover:border-floralwhite hover:border-2 ">
                 <a href="/login"> Login</a>
               </button>
-            </div>
+            </div>):null}
+
           </div>
         </nav>
         <div></div>
       </div>
 
       {/* Advertisement */}
-      <div classname="w-screen h-screen bg-floralwhite ">
-        <div className=" m-20 flex flex-row ">
-          <div className="carousel w-2/5">
-            {carousels.map((item, i) =>
-              i === index ? (
-                <div className="carousel-item  " key={i}>
-                  <img src={item} alt={item} className=" object-cover" />
-                </div>
-              ) : null
-            )}
+      <div classname="w-scree bg-floralwhite ">
+        <div className=" m-20 h-2/3 flex flex-row justify-center items-center ">
+          <div className="w-2/6">
+            <Carousel></Carousel>
           </div>
           <div className=" w-4/5 flex flex-col justify-center items-center m-5">
             <h1 className=" text-deepkoamaru text-7xl font-serif font-medium">
@@ -108,7 +93,7 @@ function Market() {
 
       {/* Best Seller */}
       <div className="  bg-cornflower w-screen h-screen flex flex-row justify-between p-16">
-        <div className="w-1/6  flex flex-col justify-center items-center">
+        <div className="w-2/6  flex flex-col justify-center items-center">
           <h1 className="text-deepkoamaru text-7xl font-serif font-medium">
             Banyak diminati
           </h1>
@@ -170,11 +155,11 @@ function Market() {
                 id="underline_select"
                 className="block mt-3 mb-7 py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-black border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
-                <option selected>Choose a country</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
+                <option selected value="20">
+                  1-20 Cm
+                </option>
+                <option value="50">21-50 Cm</option>
+                <option value="100">51++ Cm</option>
               </select>
 
               <label
@@ -201,7 +186,29 @@ function Market() {
             </form>
           </div>
         </div>
-        <div className="w-4/6 me-10 bg-amber-900"></div>
+        <div className="w-4/6 me-10 overflow-auto grid grid-cols-3 gap-4">
+          {all.map((value,index)=>( <div
+              className=" bg-cornflower border border-gray-200 rounded-lg shadow bg-contain p-3"
+              id="wrapper-item"
+            >
+              <img className="w-36 mx-auto my-auto" src={value.gambar} alt="..." />
+              <div className="p-5">
+                <h5 className="mb-2 text-3xl font-bold tracking-tight text-deepkoamaru">
+                  {value.ikan}
+                </h5>
+                <p className=" font-normal text-deepkoamaru text-xl">
+                  Rp. {value.hargaumum}/Kg
+                </p>
+                <small className="mb-7 font-extralight text-deepkoamaru text-sm">
+                  Ditangkap di {value.habitat}
+                </small>
+                <br />
+                <button className="inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg ">
+                  Beli
+                </button>
+              </div>
+            </div>))}
+        </div>
       </div>
 
       {/* Footer */}

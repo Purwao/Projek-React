@@ -31,6 +31,7 @@ class FishController extends Controller
             'gambar' => 'required',
             'hargaumum' => 'required',
             'ukuranumum' => 'required',
+            'bestseller'=>'required',
         ]);
 
         $gambar = $request->file('gambar');
@@ -43,6 +44,7 @@ class FishController extends Controller
             'gambar' => url('upload/' . $namagambar), 
             'hargaumum' => $request->input('hargaumum'),
             'ukuranumum' => $request->input('ukuranumum'),
+            'bestseller'=>$request->input('bestseller')
         ];
 
         $fish = Fish::create($data);
@@ -113,8 +115,14 @@ class FishController extends Controller
             return response()->json([
                 "msg"=>"Thoust Data Has been Deleted",
                 "status"=>200
-            ]);
+            ]); 
         }
 
     }
+    public function bestseller()
+    {
+        $bestseller=Fish::where('bestseller',1)->get();
+        return response()->json($bestseller);
+    }
+
 }

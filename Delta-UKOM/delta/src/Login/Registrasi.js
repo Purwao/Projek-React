@@ -2,8 +2,11 @@ import React from "react";
 import Ombak from "../components/Ombak";
 import { useForm } from "react-hook-form";
 import { link } from "../Axios/link";
+import { redirect } from "react-router-dom";
 
-function Login() {
+
+function Registrasi() {
+    
     const{
         register,
         handleSubmit,
@@ -22,11 +25,11 @@ function Login() {
         link.post('reg',formData).then(res=>{
             console.log(res.data.msg);
         })
+        sessionStorage.setItem('email',data.email)
         reset();
+        window.location="http://localhost:3000/market";
     }
     
-
-
     function showPass() {
         var pass = document.getElementById("password");
         if (pass.type === "password") {
@@ -35,13 +38,13 @@ function Login() {
             pass.type = "password";
         }
     }
-    return (
-        <div>
-            <Ombak />
+  return (
+    <div className="flex flex-row-reverse ">
+         <Ombak />
             <div className=" w-screen h-screen senja ">
                 <div className=" h-screen w-2/5 bg-black border border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-3xl bg-opacity-50 relative">
                     <div className="py-7 mx-auto">
-                        <h1 className="font-bold text-5xl mb-7 font-sans text-center text-white">Login</h1>
+                        <h1 className="font-bold text-5xl mb-7 font-sans text-center text-white">Registrasi</h1>
                         <div>
                             <form className="" action="" onSubmit={handleSubmit(registrasi)}>
                                 <label htmlFor="" className=" hover:text-blue-600 hover:border-blue-600 hover:duration-700 ease-in-out ps-2 border-s-8 border-white text-white text-lg duration-300 transform translate-y-6 scale-75 top-3">Email</label>
@@ -68,7 +71,7 @@ function Login() {
                                 <button className="bg-gray-300 bg-opacity-30  hover:bg-blue-300 hover:text-black transition ease-linear duration-300 block w-full  text-white font-semibold py-2 px-4 border opacity-75 border-white rounded shadow focus:outline-none focus:shadow-outline" type="submit">Submit</button>
                                 <div className="flex justify-between items-center">
                                     < a href="#a" className="text-white text-lg hover:underline"><i>Forgot Password?</i></a>
-                                    <span className="text-gray-100">Don't have an account? <a href="/regist" className="text-white text-lg hover:underline"><i>Register Here</i></a></span>
+                                    <span className="text-gray-100">Don't have an account? <a href="#a" className="text-white text-lg hover:underline"><i>Register Here</i></a></span>
                                 </div>
                             </form>
                         </div>
@@ -78,8 +81,8 @@ function Login() {
                             
                                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
                                 <div className="text-sm text-gray-500  dark:text-gray-400">
-                                            <span className="">&copy; Society.co </span>
-                                      
+                                            <span className="">&copy; Societyco.  </span>
+                                            <span>  </span>
                                     </div>
                          
        
@@ -87,8 +90,8 @@ function Login() {
                         </footer>
                 </div>
             </div>
-        </div>
-    );
+    </div>
+  )
 }
 
-export default Login;
+export default Registrasi
