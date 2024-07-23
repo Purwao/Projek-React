@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+body{
+  overflow-x: hidden;
+}
 
-
-/* waves */
 .ocean {
-  height: 300px; /* change the height of the waves here */
+  height: 300px;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -49,7 +50,7 @@
 }
 
 .senja {
-  background: linear-gradient(178deg, rgb(158, 166, 237), rgb(121, 180, 244), rgb(65, 179, 250), rgb(187, 200, 244));
+  background: linear-gradient(178deg, rgb(237, 217, 163), rgb(228, 241, 177), rgb(152, 219, 228), rgb(187, 200, 244));
   background-size: 800% 800%;
 
   -webkit-animation: AnimationName 36s ease-in-out infinite;
@@ -105,22 +106,26 @@
   opacity: 1;
 }
 
+.navvv{
+  background-color: #ffffff;
+}
+
 input {
+  margin-right: 10px;
   width: 16rem; 
   padding: 0.5rem 1rem;
   background-color: rgba(255, 255, 255, 0.5); 
   backdrop-filter: blur(8px);
-  border-radius: 9999px; 
   color: #374151;
   placeholder-color: #9CA3AF; 
-  border: none;
+  border: 1px #2662fb solid;
   outline: none;
   transition: ease-in-out 400ms;
 }
 
 form input:focus {
   transform: scale(0.95);
-  box-shadow: 0 0 0 2px #2563eb; /* Equivalent to focus:ring-2 and focus:ring-blue-500 in Tailwind CSS */
+  box-shadow: 0 0 0 1px #2563eb; /* Equivalent to focus:ring-2 and focus:ring-blue-500 in Tailwind CSS */
 }
 .carousel {
   position: relative;
@@ -148,5 +153,18 @@ form input:focus {
   padding: 5px;
 }
 
+.kecil:hover{
+  transform: scale(0.8);
+ 
+}
 
+.bgiwak{
+  background-image: url('./photos/Pattern_fishes-removebg-preview.png') ;
+  background-size: contain;
+  ;
+}
+.bgwaves{
+  background-image: url('./photos/pattern.svg') ;
+  background-size: cover;
 
+}

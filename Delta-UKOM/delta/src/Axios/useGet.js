@@ -14,7 +14,7 @@ function UseGet(url) {
         }
         fetchData();
         return () => (ambil = false);
-    }, [isi]);
+    }, []);
 
     return [isi];
 }

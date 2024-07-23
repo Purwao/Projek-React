@@ -5,16 +5,22 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily:{
+        'GI':"HYWenHei-85W",
+        'HSR':"DIN",
+        'fishy':"Something Fishy",
+      },
      backgroundColor:{
-      'floralwhite':'#fdf9ee',
+      'floralwhite':'#f7f7f7',
+      'herowhite':'#f9faff',
       'deepkoamaru':'#2662fb',
       'cornflower':'#bad4ed',
      },
      colors:{
-      'floralwhite':'#fdf9ee',
+      'floralwhite':'#f7f7f7',
       'deepkoamaru':'#2662fb',
       'cornflower':'#bad4ed',
      },
   },
-  plugins: [],
+  plugins: require('daisyui'),
 }}

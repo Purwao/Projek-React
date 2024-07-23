@@ -1,226 +1,691 @@
 import React, { useState } from "react";
-import Art1 from "../photos/Artboard 1.png";
-import Art2 from "../photos/Artboard 2.png";
-import Art3 from "../photos/Artboard 3.png";
+// import Art1 from "../photos/Artboard 1.png";
+// import Art2 from "../photos/Artboard 2.png";
+// import Art3 from "../photos/Artboard 3.png";
+import hero1 from "../photos/download (1).jpeg";
+
+import Nav from "../components/Nav";
+import Advertisement from "../components/Advertisement";
+
+import Footer from "../components/Footer";
+import { link } from "../Axios/link";
+import { useForm } from "react-hook-form";
 import UseGet from "../Axios/useGet";
-import Carousel from "../components/Carousel";
 
 function Market() {
-  // Carousels
+  // Search Bar
+  const [result, setResult] = useState([]);
 
-  let adv1 = Art1;
-  let adv2 = Art2;
-  let adv3 = Art3;
+  const {
+    register: registerFirst,
+    handleSubmit: handleSubmitFirst,
+  
+    reset,
+  } = useForm();
+  const {
+    register: registerSecond,
+    handleSubmit: handleSubmitSecond,
+ 
+  } = useForm();
+
+  function search(data) {
+    console.log(data);
+    const formData = new FormData();
+    formData.append("search", data.search);
+    console.log(formData);
+    link.post("search", formData).then((res) => {
+      console.log(res);
+      if (res.data !== "") {
+        setResult(res.data);
+        console.log(result);
+        document.getElementById("my_modal_5").showModal();
+      } else {
+        alert("Data ikan tidak ditemukan.");
+      }
+      reset();
+    });
+  }
+
+  // Modal(dialog)
+
+  let count = 1;
+  let hargatotal = result.hargaumum;
+
+  function showModal1(id) {
+    count = 1;
+    document.getElementById("count-display").innerHTML = count;
+    document.getElementById("harga-display").innerHTML = result.hargaumum;
+    console.log(id);
+    link.get("modal/" + id).then((res) => {
+      setResult(res.data);
+      console.log(result);
+      console.log(res);
+      document.getElementById("my_modal_1").showModal();
+    });
+  }
+
+  function upCounter() {
+    count += 1;
+    hargatotal = result.hargaumum * count;
+    // console.log(count);
+    document.getElementById("count-display").innerHTML = count;
+    document.getElementById("harga-display").innerHTML = hargatotal;
+    // console.log(result)
+  }
+
+  function downCounter() {
+    if (count > 1) {
+      count -= 1;
+      hargatotal = result.hargaumum * count;
+      document.getElementById("count-display").innerHTML = count;
+      document.getElementById("harga-display").innerHTML = hargatotal;
+    } else {
+      count = 1;
+      hargatotal = result.hargaumum * count;
+      document.getElementById("count-display").innerHTML = count;
+      document.getElementById("harga-display").innerHTML = hargatotal;
+    }
+  }
+
+  function beli(result) {
+    let idikan = result.id;
+    console.log(idikan);
+
+    const formData = new FormData();
+    formData.append("jumlah", count);
+    formData.append("harga", hargatotal);
+    formData.append("idpelanggan", idpelanggansession);
+    formData.append("idikan", idikan);
+
+    link.post("beli", formData).then((res) => {
+      console.log(res);
+      if (res.data.status === 201) {
+        document.getElementById("pembayaran-berhasil").style.display = "flex";
+      } else {
+      }
+    });
+  }
+
+  // filtering fishes
+
+  const [filter, setFilter] = useState();
+
+  function searchie(data) {
+    const formData = new FormData();
+    formData.append("ukuran", data.ukuran);
+    formData.append("habitat", data.habitat);
+    link.post("search1", formData).then((res) => {
+      if (res.data !== "") {
+        console.log(res.data);
+        setFilter(res.data);
+      } else {
+        alert("Data ikan tidak ditemukan.");
+      }
+    });
+    console.log(filter);
+  }
 
   //Axioss
 
   const [isi] = UseGet("/bestseller");
-  const [all] = UseGet("/fish")
-  console.log(isi);
 
   //SessionStorage
 
-  const emailsession=sessionStorage.getItem('email');
+  const idpelanggansession = sessionStorage.getItem("idpelanggan");
+  const emailsession = sessionStorage.getItem("email");
 
   return (
     <div>
       {/* Nav */}
-      <div className="heading relative">
-        <div></div>
-        <nav className="navbar bg-deepkoamaru  navbar-expand-lg navbar-light relative">
-          <div className="h-28 flex flex-row justify-between items-center relative z-10 ps-10">
-            <h1>
-              <a
-                className="font-serif font-medium text-7xl text-floralwhite"
-                href="LandingPage"
-              >
-                Delta
-              </a>
-            </h1>
-            <form
-              action=""
-              className="  flex-row justify-between items-center "
-            >
-              <input
-                type="text"
-                name=""
-                id=""
-                className="me-2"
-                placeholder="Search..."
-              />
-              <button
-                type="submit"
-                className="font-serif px-5 py-2 bg-floralwhite text-deepkoamaru rounded-full hover:bg-deepkoamaru hover:text-floralwhite transition duration-300 ease-in hover:border-floralwhite hover:border-2 "
-              >
-                Submit
-              </button>
-            </form>
 
-            {/* Pengecekan jika ada email session */}
-            {emailsession?(<div className="flex flex-row">
-              <h1 className="text-floralwhite font-serif font-light ">Logged in as: </h1><h1 className=" border-b-2 text-floralwhite font-serif font-light ">{sessionStorage.getItem("email")}</h1>
-            </div> ):null}
-            {emailsession?( <button className="font-serif h-28 w-28 bg-floralwhite text-deepkoamaru text-xl hover:bg-deepkoamaru hover:text-floralwhite transition duration-300 ease-in hover:border-floralwhite hover:border-2 ">
-                <i onClick={()=>{sessionStorage.removeItem('email')}}>Logout</i>
-              </button> ):null}
-            {!emailsession?( <div>
-              <button className="font-serif h-28 w-28 bg-floralwhite text-deepkoamaru text-xl hover:bg-deepkoamaru hover:text-floralwhite transition duration-300 ease-in hover:border-floralwhite hover:border-2 ">
-                <a href="/login"> Login</a>
-              </button>
-            </div>):null}
+      <Nav></Nav>
 
-          </div>
-        </nav>
-        <div></div>
-      </div>
+      {/* Hero */}
 
-      {/* Advertisement */}
-      <div classname="w-scree bg-floralwhite ">
-        <div className=" m-20 h-2/3 flex flex-row justify-center items-center ">
-          <div className="w-2/6">
-            <Carousel></Carousel>
-          </div>
-          <div className=" w-4/5 flex flex-col justify-center items-center m-5">
-            <h1 className=" text-deepkoamaru text-7xl font-serif font-medium">
-              Current Discount
-            </h1>
-            <p className="text-deepkoamaru text-2xl font-light">
-              Temukan ikan segar nan murah, hanya di website kami !
-            </p>
-          </div>
-        </div>
-      </div>
+      <div>
+        <section className=" bg-white text-black  h-screen flex justify-center items-center px-20">
+          <div className="container  text-center flex justify-between items-center">
+            <div className=" w-2/4 text-start">
+              <h1 className=" md:text-4xl font-bold mb-2 font-GI">
+                Welcome to Our Website
+              </h1>
+              <p className="md:text-md mb-6 font-HSR">
+                Temukan ikan yang bersumber lestari, berkualitas tinggi. Baik
+                anda mencari hasil tangkapan sempurna untuk hidangan berikutnya
+                atau ikan segar untuk restoran, kami siap membantu!
+              </p>
+              <div>
+                <form
+                  action=""
+                  className="  flex-row justify-between items-center "
+                  onSubmit={handleSubmitFirst(search)}
+                >
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    className=" "
+                    placeholder="⌕ 
+                  Search..."
+                    {...registerFirst("search", { required: true })}
+                  />
+                  <button
+                    type="submit"
+                    className="bg-deepkoamaru  hover:bg-floralwhite hover:text-black text-floralwhite font-bold py-2 px-4 border-b-4 border-blue-200 hover:border-floralwhite transition duration-700 ease-in-out rounded  "
+                  >
+                    Submit
+                  </button>
+                </form>
+                <dialog
+                  id="my_modal_5"
+                  className="modal modal-bottom sm:modal-middle  py-10 rounded-3xl"
+                >
+                  <div className="modal-box ">
+                    <div className="">
+                      <div className="flex flex-row justify-center items-center ">
+                        <h1 className="text-4xl text-deepkoamaru font-GI font-bold pb-10 ">
+                          Hasil Pencarian Ikan
+                        </h1>
+                      </div>
 
-      {/* Best Seller */}
-      <div className="  bg-cornflower w-screen h-screen flex flex-row justify-between p-16">
-        <div className="w-2/6  flex flex-col justify-center items-center">
-          <h1 className="text-deepkoamaru text-7xl font-serif font-medium">
-            Banyak diminati
-          </h1>
-          <p className="text-deepkoamaru text-2xl font-extralight">
-            Barang-barang yang banyak diminati dan dibeli dalam jangka waktu 30
-            hari.
-          </p>
-        </div>
-        <div
-          className="ms-20 flex flex-row items-center w-5/6 overflow-x-auto rounded-md"
-          id="wrapper"
-        >
-          {isi.map((value, index) => (
-            <div
-              className=" bg-floralwhite border ms-20 border-gray-200 rounded-lg shadow  min-w-96 min-h-96"
-              id="wrapper-item"
-            >
-              <img className=" min-w-96" src={value.gambar} alt="..." />
-              <div className="p-5">
-                <h5 className="mb-2 text-7xl font-bold tracking-tight text-deepkoamaru">
-                  {value.ikan}
-                </h5>
-                <p className=" font-normal text-deepkoamaru text-3xl">
-                  Rp. {value.hargaumum}/Kg
-                </p>
-                <small className="mb-7 font-extralight text-deepkoamaru text-lg">
-                  Ditangkap di {value.habitat}
-                </small>
-                <br />
-                <button className="inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg ">
-                  Beli
-                </button>
+                      <div className="flex flex-row items-center px-20">
+                        <div className=" pe-10">
+                          <img
+                            src={result.gambar}
+                            alt=""
+                            className=" w-56 rounded-3xl"
+                          />
+                        </div>
+                        <div className="flex flex-col items-center ">
+                          <h1 className="mb-2 text-4xl font-bold tracking-tight text-deepkoamaru">
+                            {result.ikan}
+                          </h1>
+                          <p className="font-normal text-deepkoamaru text-2xl">
+                            Rp. {result.hargaumum}/Kg
+                          </p>
+                          <p className="mb-7 font-extralight text-deepkoamaru text-lg">
+                            Ditangkap di {result.habitat}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="modal-action">
+                        <div className="flex flex-row-reverse justify-between px-44 mt-10">
+                          <button
+                            onClick={() => {
+                              showModal1(result.id);
+                              document.getElementById(
+                                "pembayaran-berhasil"
+                              ).style.display = "none";
+                              document.getElementById(
+                                "pembayaran-gagal"
+                              ).style.display = "none";
+                            }}
+                            className="inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                          >
+                            Beli
+                          </button>
+
+                          <form method="dialog">
+                            <button className="btn inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-red-500 text-floralwhite hover:bg-floralwhite hover:text-red-500 hover:border-red-500 border-2 transition duration-300 ease-linear rounded-lg ">
+                              Kembali
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </dialog>
               </div>
             </div>
-          ))}
+            <div>
+              <img src={hero1} width={450} alt="" />
+            </div>
+          </div>
+        </section>
+        <dialog
+          id="my_modal_1"
+          className="modal modal-bottom sm:modal-middle bg-floralwhite  py-10 rounded-3xl"
+        >
+          <div className="modal-box">
+            <div className="">
+              <div className="flex flex-row justify-center items-center ">
+                <h1 className="text-4xl text-deepkoamaru font-GI font-bold pb-10 ">
+                  Beli Ikan ?
+                </h1>
+              </div>
+
+              <div className="flex flex-row items-center px-20">
+                <div className=" pe-10">
+                  <img src={result.gambar} alt="" className=" w-96" />
+                </div>
+                <div className="flex flex-col items-center ">
+                  <h1 className="mb-2 text-4xl font-bold tracking-tight text-deepkoamaru">
+                    {result.ikan}
+                  </h1>
+                  <p className="font-normal text-deepkoamaru text-2xl">
+                    Rp. {result.hargaumum}/Kg
+                  </p>
+                  <p className="mb-7 font-extralight text-deepkoamaru text-lg">
+                    Ditangkap di {result.habitat}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-row justify-between px-20 mt-5">
+                <div>
+                  <span className="flex flex-row ">
+                    <h1 className="mb-2 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR">
+                      Total harga:{" "}
+                    </h1>
+                    <small className="px-2 mb-2 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR">
+                      {" "}
+                      Rp.{" "}
+                    </small>
+                    <br />
+                    <h1
+                      className="mb-2 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR"
+                      id="harga-display"
+                    >
+                      {hargatotal}
+                    </h1>
+                  </span>
+                </div>
+                <div className="flex flex-row justify-between items-center">
+                  <button
+                    className="inline-flex items-center px-3 py-2 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                    onClick={downCounter}
+                  >
+                    -
+                  </button>
+                  <h1
+                    id="count-display"
+                    className="mb-2 px-4 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR"
+                  >
+                    {count}
+                  </h1>
+                  <button
+                    className="inline-flex items-center px-3 py-2 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                    onClick={upCounter}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <div
+                id="pembayaran-berhasil"
+                className=" mt-5 w-96 mx-auto h-12 bg-cornflower rounded-lg flex flex-row items-center justify-center "
+              >
+                <svg
+                  className="w-10 h-10"
+                  xmlns="http://www.w3.org/2000/svg"
+                  x="0px"
+                  y="0px"
+                  width="100"
+                  height="100"
+                  viewBox="0 0 24 24"
+                  fill="#2662fb"
+                >
+                  <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path>
+                </svg>
+                <h1 className="ms-2 text-deepkoamaru">Order sudah dibuat</h1>
+              </div>
+              <div
+                id="pembayaran-gagal"
+                className=" mt-5 w-96 mx-auto h-12 bg-cornflower rounded-lg flex flex-row items-center justify-center "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="24"
+                  height="24"
+                  fill="#2662fb"
+                >
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-.83 0-1.5.67-1.5 1.5S11.17 20 12 20s1.5-.67 1.5-1.5S12.83 17 12 17zm1.07-11.25L12.5 14h-1l-.57-8.25h2.14z" />
+                </svg>
+                <h1 className="ms-2 text-deepkoamaru">Kesalahan Order</h1>
+              </div>
+              <div className="modal-action">
+                <div className="flex flex-row-reverse justify-between px-44 mt-5">
+                  <button
+                    onClick={() => {
+                      beli(result);
+                    }}
+                    className="inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                  >
+                    Beli
+                  </button>
+
+                  <form method="dialog">
+                    <button className="btn inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-red-500 text-floralwhite hover:bg-floralwhite hover:text-red-500 hover:border-red-500 border-2 transition duration-300 ease-linear rounded-lg ">
+                      Kembali
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </dialog>
+      </div>
+
+      {/* Advertisement*/}
+
+      <Advertisement></Advertisement>
+
+      {/* Best Seller */}
+      <div>
+        <div className="bg-white w-screen h-screen flex flex-row justify-between px-20">
+          <div className="w-3/6  flex flex-col justify-center ">
+            <h1 className="text-black text-3xl font-GI font-semibold p-2">
+            | Customers Favorite - The Bestsellers
+            </h1>
+            <p className="text-sm mb-6 ms-2 font-medium font-HSR">
+              Jelajahi ikan terpopuler kami, yang dipilih oleh pelanggan kami
+              karena kualitas dan rasanya yang luar biasa. Dari salmon segar
+              hingga tuna yang lezat, produk terlaris ini pasti menyenangkan.
+              Cobalah hari ini!
+            </p>
+          </div>
+          <div
+            className="ms-20 flex flex-row items-center w-5/6 overflow-x-auto rounded-md"
+            id="wrapper"
+          >
+            {isi.map((value, index) => (
+              <div
+                className=" bg-deepkoamaru border mx-10 rounded-lg shadow min-h-48 w-72"
+                id="wrapper-item"
+              >
+                <img
+                  className=" min-w-64 rounded-b-lg"
+                  src={value.gambar}
+                  alt="..."
+                />
+                <div className="p-5">
+                  <div
+                    className="flex justify-between items-center
+                "
+                  >
+                    <small className=" font-extralight text-white text-md">
+                      Kategori: {value.habitat}
+                    </small>
+
+                    <p className=" font-normal text-white text-md">
+                      Rp. {value.hargaumum}/Kg
+                    </p>
+                  </div>
+                  <div className="flex justify-between items-center mt-4">
+                    <h5 className=" text-4xl font-bold tracking-tight text-white">
+                      {value.ikan}
+                    </h5>
+                    <br />
+                    <button
+                      onClick={() => {
+                        showModal1(value.id);
+                        document.getElementById(
+                          "pembayaran-berhasil"
+                        ).style.display = "none";
+                        document.getElementById(
+                          "pembayaran-gagal"
+                        ).style.display = "none";
+                      }}
+                      className="inline-flex items-center px-5 py-1 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                    >
+                      Beli
+                    </button>
+                  </div>
+                </div>
+                <dialog
+                  id="my_modal_4"
+                  className="modal modal-bottom sm:modal-middle bg-floralwhite  py-10 rounded-3xl"
+                >
+                  <div className="modal-box">
+                    <div className="">
+                      <div className="flex flex-row justify-center items-center ">
+                        <h1 className="text-4xl text-deepkoamaru font-GI font-bold pb-10 ">
+                          Beli Ikan ?
+                        </h1>
+                      </div>
+
+                      <div className="flex flex-row items-center px-20">
+                        <div className=" pe-10">
+                          <img src={result.gambar} alt="" className=" w-96" />
+                        </div>
+                        <div className="flex flex-col items-center ">
+                          <h1 className="mb-2 text-4xl font-bold tracking-tight text-deepkoamaru">
+                            {result.ikan}
+                          </h1>
+                          <p className="font-normal text-deepkoamaru text-2xl">
+                            Rp. {result.hargaumum}/Kg
+                          </p>
+                          <p className="mb-7 font-extralight text-deepkoamaru text-lg">
+                            Ditangkap di {result.habitat}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-row justify-between px-20 mt-5">
+                        <div>
+                          <span className="flex flex-row ">
+                            <h1 className="mb-2 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR">
+                              Total harga:{" "}
+                            </h1>
+                            <small className="px-2 mb-2 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR">
+                              {" "}
+                              Rp.{" "}
+                            </small>
+                            <br />
+                            <h1
+                              className="mb-2 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR"
+                              id="harga-display"
+                            >
+                              {hargatotal}
+                            </h1>
+                          </span>
+                        </div>
+                        <div className="flex flex-row justify-between items-center">
+                          <button
+                            className="inline-flex items-center px-3 py-2 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                            onClick={downCounter}
+                          >
+                            -
+                          </button>
+                          <h1
+                            id="count-display"
+                            className="mb-2 px-4 text-2xl font-semibold tracking-tight text-deepkoamaru font-HSR"
+                          >
+                            {count}
+                          </h1>
+                          <button
+                            className="inline-flex items-center px-3 py-2 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                            onClick={upCounter}
+                          >
+                            +
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        id="pembayaran-berhasil"
+                        className=" mt-5 w-96 mx-auto h-12 bg-cornflower rounded-lg flex flex-row items-center justify-center "
+                      >
+                        <svg
+                          className="w-10 h-10"
+                          xmlns="http://www.w3.org/2000/svg"
+                          x="0px"
+                          y="0px"
+                          width="100"
+                          height="100"
+                          viewBox="0 0 24 24"
+                          fill="#2662fb"
+                        >
+                          <path d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 11 7 L 11 9 L 13 9 L 13 7 L 11 7 z M 11 11 L 11 17 L 13 17 L 13 11 L 11 11 z"></path>
+                        </svg>
+                        <h1 className="ms-2 text-deepkoamaru">
+                          Order sudah dibuat
+                        </h1>
+                      </div>
+                      <div
+                        id="pembayaran-gagal"
+                        className=" mt-5 w-96 mx-auto h-12 bg-cornflower rounded-lg flex flex-row items-center justify-center "
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          width="24"
+                          height="24"
+                          fill="#2662fb"
+                        >
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 15c-.83 0-1.5.67-1.5 1.5S11.17 20 12 20s1.5-.67 1.5-1.5S12.83 17 12 17zm1.07-11.25L12.5 14h-1l-.57-8.25h2.14z" />
+                        </svg>
+                        <h1 className="ms-2 text-deepkoamaru">
+                          Kesalahan Order
+                        </h1>
+                      </div>
+                      <div className="modal-action">
+                        <div className="flex flex-row-reverse justify-between px-44 mt-5">
+                          <button
+                            onClick={() => {
+                              beli(result);
+                            }}
+                            className="inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                          >
+                            Beli
+                          </button>
+
+                          <form method="dialog">
+                            <button className="btn inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-red-500 text-floralwhite hover:bg-floralwhite hover:text-red-500 hover:border-red-500 border-2 transition duration-300 ease-linear rounded-lg ">
+                              Kembali
+                            </button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </dialog>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* List Of Fishes */}
-      <div className="bg-floralwhite w-screen h-screen flex flex-row-reverse  p-16 ">
-        <div className="w-2/6 my-auto ">
-          <div className=" text-end">
-            <h1 className="text-deepkoamaru text-7xl font-sans font-bold">
-              Cari Ikanmu!
-            </h1>
-            <p className="text-deepkoamaru text-xl font-extralight">
-              Dengan mengisi data ikan yang kamu cari dibawah ini
-            </p>
-          </div>
-          <div className="mt-10 ">
-            <form className="">
-              <label
-                htmlFor="underline_select"
-                className=" border-s-4 border-black ps-2"
-              >
-                Ukuran Ikan
-              </label>
-              <select
-                id="underline_select"
-                className="block mt-3 mb-7 py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-black border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-              >
-                <option selected value="20">
-                  1-20 Cm
-                </option>
-                <option value="50">21-50 Cm</option>
-                <option value="100">51++ Cm</option>
-              </select>
-
-              <label
-                htmlFor="habitat"
-                className=" border-s-4 border-black ps-2 mt-7"
-              >
-                Lingkungan Hidup
-              </label>
-              <select
-                className="block mt-3 mb-7 py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-black border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                id="habitat"
-              >
-                <option selected>Air Laut</option>
-                <option value>Air Tawar</option>
-                <option value>Tambak</option>
-                <option value>Terumbu Karang</option>
-              </select>
-              <button
-                type="submit"
-                className="font-serif px-5 py-2 bg-deepkoamaru text-floralwhite rounded-full hover:bg-floralwhite hover:text-deepkoamaru transition duration-300 ease-in hover:border-deepkoamaru hover:border-2 "
-              >
-                Cari
-              </button>
+      {/* <Fisheslist></Fisheslist> */}
+      <div>
+        <div className="bg-deepkoamaru bgiwak bg-contain w-screen h-screen flex flex-row justify-around gap-4 items-center px-20">
+          <div className="">
+            <form
+              action=" "
+              className="text-sm"
+              onSubmit={handleSubmitSecond(searchie)}
+            >
+              <div className="flex-col ">
+                <div>
+                  <label className="block m-2 text-md font-medium text-floralwhite">
+                    Ukuran Ikan:
+                    <select
+                      {...registerSecond("ukuran", { required: true })}
+                      id="ukuran"
+                      name="ukuran"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-32 p-2 "
+                    >
+                      <option value="">Pilih ukuran</option>
+                      <option value="20">Kecil</option>
+                      <option value="50">Sedang</option>
+                      <option value="100">Besar</option>
+                    </select>
+                  </label>
+                </div>
+                <div>
+                  <label className="block m-2 text-md font-medium text-floralwhite ">
+                    Habitat:
+                    <select
+                      id="habitat"
+                      {...registerSecond("habitat", { required: true })}
+                      name="habitat"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-32 p-2 "
+                    >
+                      <option value="">Pilih habitat</option>
+                      <option value="Air Tawar">Air Tawar</option>
+                      <option value="Air Laut">Air Laut</option>
+                      <option value="Air Asin">Air Asin</option>
+                    </select>
+                  </label>
+                </div>
+                <div>
+                  <button
+                    className="block w-32 p-2 text-sm ms-2  bg-floralwhite text-deepkomaru hover:bg-deepkoamaru hover:text-floralwhite hover:border-deepkoamaru  transition duration-300 ease-linear rounded "
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </div>
             </form>
           </div>
-        </div>
-        <div className="w-4/6 me-10 overflow-auto grid grid-cols-3 gap-4">
-          {all.map((value,index)=>( <div
-              className=" bg-cornflower border border-gray-200 rounded-lg shadow bg-contain p-3"
-              id="wrapper-item"
-            >
-              <img className="w-36 mx-auto my-auto" src={value.gambar} alt="..." />
-              <div className="p-5">
-                <h5 className="mb-2 text-3xl font-bold tracking-tight text-deepkoamaru">
-                  {value.ikan}
-                </h5>
-                <p className=" font-normal text-deepkoamaru text-xl">
-                  Rp. {value.hargaumum}/Kg
+          <div className=" h-4/6 w-10/12 bg-herowhite flex justify-center items-center">
+            {!filter ? (
+              <div className="w-4/6  ">
+                <h1 className="text-4xl  font-bold mb-2 font-GI">
+                  Explore Our Fish Categories
+                </h1>
+                <p className="text-md mb-6 font-HSR">
+                  Telusuri beragam kategori kami untuk menemukan ikan yang
+                  sempurna untuk kebutuhan Anda. Baik Anda mencari ikan hasil
+                  tangkapan liar, hasil budidaya, atau jenis ikan tertentu
+                  seperti salmon, tuna, atau kerang, kami memiliki semuanya.
                 </p>
-                <small className="mb-7 font-extralight text-deepkoamaru text-sm">
-                  Ditangkap di {value.habitat}
-                </small>
-                <br />
-                <button className="inline-flex items-center px-5 py-3 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg ">
-                  Beli
-                </button>
               </div>
-            </div>))}
-        </div>
-      </div>
+            ) : (
+              <div className="w-full h-full grid grid-cols-4 py-3 overflow-x-hidden overflow-y-auto ">
+                {filter.map((value, index) => (
+                  <div
+                    className=" bg-deepkoamaru border mx-2 mb-2 rounded-lg shadow h-44 w-52 "
+                    id="wrapper-item"
+                  >
+                    <img
+                      className=" mx-auto  max-h-16 rounded-b-lg "
+                      src={value.gambar}
+                      alt="..."
+                    />
+                    <div className="p-2">
+                      <div className="flex justify-between items-center">
+                        <small className=" font-extralight text-white text-sm">
+                          Kategori: {value.habitat}
+                        </small>
 
-      {/* Footer */}
-      <footer className="p-8  bg-deepkoamaru w-full left-0 right-0 bottom-0">
-        <div className=" max-w-screen-xl mx-auto">
-          <hr className="my-6 border-gray-200 sm:mx-auto lg:my-8" />
-          <div className="text-sm text-floralwhite flex justify-between  ">
-            <span className="">&copy; Society.co </span>
-            <span> All Rights Reserved</span>
+                        <p className=" font-normal text-white text-sm">
+                          Rp. {value.hargaumum}/Kg
+                        </p>
+                      </div>
+                      <div className="flex justify-between items-center mt-4">
+                        <h5 className=" text-2xl font-bold tracking-tight text-white">
+                          {value.ikan}
+                        </h5>
+                        <br />
+                        <button
+                          onClick={() => {
+                            showModal1(value.id);
+                            document.getElementById(
+                              "pembayaran-berhasil"
+                            ).style.display = "none";
+                            document.getElementById(
+                              "pembayaran-gagal"
+                            ).style.display = "none";
+                          }}
+                          className="inline-flex items-center px-4 py-1 text-lg font-medium text-center bg-deepkoamaru text-floralwhite hover:bg-floralwhite hover:text-deepkoamaru hover:border-deepkoamaru border-2 transition duration-300 ease-linear rounded-lg "
+                        >
+                          Beli
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-      </footer>
+      </div>
+      {/* Footer */}
+      <Footer></Footer>
     </div>
   );
 }
