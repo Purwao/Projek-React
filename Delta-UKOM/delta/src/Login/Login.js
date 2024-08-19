@@ -30,7 +30,7 @@ function Login() {
         formData.append("password",data.password)
         link.post('login',formData).then(res=>{
       
-            let token=res.data.data.api_token
+            let token=res.data.data.api_token;
             console.log(token)
             console.log(res.data)
     
@@ -62,6 +62,7 @@ function Login() {
                     alert('An error occurred. Please try again.');
                 }
             } else {
+                alert('Customer not found!');
                 console.log(error);
             }
         })

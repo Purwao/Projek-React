@@ -106,7 +106,7 @@ class CustomersController extends Controller
         $user->save();
 
         $emailUser= $request->input('email');
-        Mail::to($emailUser)->send(new SendOtpMail($otp));
+        Mail::to($emailUser)->send(new SendOtpMail($otp, $user->email));
 
          return response()->json(['message' => 'OTP sent to your email.']);
     }
