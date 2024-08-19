@@ -10,6 +10,7 @@ class Customers extends Model
         'password',
         'email',
         'saldo',
+        'otp',
         'api_token'
     ];
 }

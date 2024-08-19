@@ -29,8 +29,7 @@ function Ikan() {
     formData.append("bestseller", data.bestseller);
 
     link.post("fish", formData).then((res) => {
-      // setPesan(res.data.msg);
-      // console.log(pesan);
+      
     });
 
     console.log(data);
@@ -39,8 +38,8 @@ function Ikan() {
     window.location.reload();
     
   }
+  console.log(isi);
 
-  console.log(isi)
 
   return (
     <div>
@@ -178,11 +177,11 @@ function Ikan() {
                     <th className="px-4 py-2 border-separate border-2 border-black">Ukuran Umum</th>
                     <th className="px-4 py-2 border-separate border-2 border-black">Gambar</th>
                     <th className="px-4 py-2 border-separate border-2 border-black">Hapus</th>
-                    <th className="px-4 py-2 border-separate border-2 border-black">Ubah</th>
+                   
                   </tr>
                 </thead>
                 <tbody >
-                  {isi.map((value, index) => (
+                  {isi && isi.map((value, index) => (
                     <tr key={index}  className="border-separate border-2 border-black ">
                       <td className="px-4 py-2 border-separate border-2 border-black">{index + 1}</td>
                       <td className="px-4 py-2 border-separate border-2 border-black">{value.ikan}</td>
@@ -208,7 +207,7 @@ function Ikan() {
                           Hapus
                         </b>
                       </td>
-                      <td className="px-4 py-2 btn btn-success border-separate border-2 border-black">Ubah</td>
+                      
                     </tr>
                   ))}
                 </tbody>

@@ -19,6 +19,28 @@ function Pelanggan() {
       formState: { errors },
       setValue,
     } = useForm();
+
+    function banUser(id){
+      console.log(id);
+      link.post(`banUser/${id}`).then((res)=>{
+        console.log(res)
+      })
+      window.location.reload();
+    }
+    function permitUser(id){
+      console.log(id);
+      link.post(`permitUser/${id}`).then((res)=>{
+        console.log(res)
+      })
+      window.location.reload();
+    }
+    function switchRole(id){
+      console.log(id);
+      link.post(`switchRole/${id}`).then((res)=>{
+        console.log(res)
+      })
+      window.location.reload();
+    }
   
     function save(data) {
       // LAWRENS HERE, FUKIN DONE WITH FORM DATA TYPE SHI AAAAAAAAAAAAAAA
@@ -47,7 +69,7 @@ function Pelanggan() {
     return (
       <div>
         <div className=" ">
-          <div className=" w-screen h-screen flex justify-center  ">
+          <div className=" w-screen h-screen flex justify-end  ">
             <div className="w-8/12 h-screen overflow-y-auto">
               <h2 className="text-xl font-bold">List Users</h2>
               <div className="">
@@ -71,10 +93,13 @@ function Pelanggan() {
                         <td className="px-4 py-2 border-separate border-2 border-black">{index}</td>
                         <td className="px-4 py-2 border-separate border-2 border-black">{value.email}</td>
                           <td className="px-4 py-2 border-separate border-2 border-black">{value.id}</td>
-                        {value.role === 0 ? <td className="px-4 py-2 border-separate border-2 border-black bg-deepkoamaru text-white">Users</td>: <td className="px-4 py-2 border-separate border-2 border-black bg-slate-700 text-white">Admin</td>}
+                        {value.role === 0 ? <td className="px-4 py-2 border-separate border-2 border-black "> <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded inline-flex items-center"  onClick={()=>{switchRole(value.id)}} >Users</button> </td>:null}
+                        {value.role === 1 ? <td className="px-4 py-2 border-separate border-2 border-black  "><button className="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded inline-flex items-center"  onClick={()=>{switchRole(value.id)}} >Kurir</button> </td>:null}
+                        {value.role === 2 ? <td className="px-4 py-2 border-separate border-2 border-black "><button className=" bg-teal-600 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded inline-flex items-center"  onClick={()=>{switchRole(value.id)}} >Manager</button> </td>:null}
+                        {value.role === 3 ? <td className="px-4 py-2 border-separate border-2 border-black "><button className="bg-gray-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"  onClick={()=>{switchRole(value.id)}} >Admin</button> </td>:null}
                       
                         <td className="px-4 py-2 border-separate border-2 border-black">{value.saldo}</td>
-                        {value.status === 1 ? <td className="px-4 py-2 border-separate border-2 border-black "><button className="bg-green-600 h-full text-white py-1 w-full">Aktif</button></td>: <td className="px-4 py-2 border-separate border-2 border-black"><button className="bg-red-800 h-full text-white py-1 w-full">Banned</button></td>}
+                        {value.status === 1 ? <td className="px-4 py-2 border-separate border-2 border-black "><button onClick={()=>{banUser(value.id)}} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">Aktif</button></td>: <td className="px-4 py-2 border-separate border-2 border-black"><button onClick={()=>{permitUser(value.id)}} className="bg-red-700 hover:bg-red-900 text-white font-bold py-2 px-4 rounded inline-flex items-center">Banned</button></td>}
                         
                       </tr>
                     ))}

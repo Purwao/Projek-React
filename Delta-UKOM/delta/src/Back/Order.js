@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { link } from "../Axios/link";
+import { useNavigate } from "react-router-dom";
 
 
 function Order() {
@@ -13,7 +14,7 @@ function Order() {
     register,
     handleSubmit,
   } = useForm();
-
+  
   const [isi, setIsi] = useState([]);
 
   useEffect(() => {
@@ -26,6 +27,7 @@ function Order() {
       }
     }
     fetchData();
+    
   }, [awal, akhir]);
 
   function cari(data) {
@@ -38,15 +40,21 @@ function Order() {
     console.log(awal);
     console.log(akhir);
   }
-  console.log(isi);
+  if (Array.isArray(isi)) {
+    isi.map(item => {
+        // Your map logic here
+    });
+} else {
+    window.location.reload();
+}
 
   return (
     <div>
       <div className=" ">
         <div className=" w-screen h-screen flex justify-around  ">
-          <div>
+          <div className="w-1/3">
             <form onSubmit={handleSubmit(cari)} className="col-4">
-              <div className="flex flex-col h-screen justify-center items-center ">
+              <div className="flex flex-col h-screen py-20 items-center ">
                 <h1>Sort by date:</h1>
                 <input
                   type="date"
@@ -105,6 +113,7 @@ function Order() {
                     </th>
                   </tr>
                 </thead>
+                
                 <tbody>
                   {isi.map((value, index) => (
                     <tr

@@ -11,6 +11,7 @@ import Footer from "../components/Footer";
 import { link } from "../Axios/link";
 import { useForm } from "react-hook-form";
 import UseGet from "../Axios/useGet";
+import { useNavigate } from "react-router-dom";
 
 function Market() {
   // Search Bar
@@ -27,6 +28,8 @@ function Market() {
     handleSubmit: handleSubmitSecond,
  
   } = useForm();
+
+   const navigate=useNavigate();
 
   function search(data) {
     console.log(data);
@@ -97,14 +100,18 @@ function Market() {
     formData.append("idpelanggan", idpelanggansession);
     formData.append("idikan", idikan);
 
-    link.post("beli", formData).then((res) => {
+
+    if (sessionStorage.getItem("idpelanggan")) {link.post("beli", formData).then((res) => {
       console.log(res);
       if (res.data.status === 201) {
         document.getElementById("pembayaran-berhasil").style.display = "flex";
       } else {
       }
     });
-  }
+    }else{alert("Silahkan login terlebih dahulu");
+      navigate("/login");
+  }}
+    
 
   // filtering fishes
 

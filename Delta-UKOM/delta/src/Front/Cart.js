@@ -41,12 +41,24 @@ function Cart() {
     formData.append("idpelanggan", idpelanggansession);
     link.post(`beli/${id}`, formData).then((res) => {
       console.log(res);
-      if (
-        res.data.message === "Transaction successful. Order status updated."
-      ) {
-        alert("Pembayaran Berhasil, Refresh halaman ini");
+      
+    }).catch(error => {
+      if (error.response) {
+          if (error.response.status === 403) {
+              alert('Akun anda di Banned');
+          } else if (error.response.status === 401) {
+              alert('Password Salah');
+          } else if (error.response.status === 404) {
+              alert('Customer not found');
+          } else if (error.response.status === 400) {
+              alert('Insufficient Balance');
+          } else {
+              alert('An error occurred. Please try again.');
+          }
+      } else {
+          alert('An error occurred. Please check your connection and try again.');
       }
-    });
+  })
   }
   return (
     <div>
@@ -102,7 +114,7 @@ function Cart() {
                         <img
                           src={value.gambar}
                           alt=""
-                          className="  max-w-48 max-h-40"
+                          className="  max-w-48 max-h-28"
                         />
                       </div>
                       <div className="   mx-auto ">
@@ -155,17 +167,15 @@ function Cart() {
                         </button>
                         <button
                           onClick={() => {
-                            const confirmDelete = window.confirm(
+                            const confirmBuy = window.confirm(
                               "Konfirmasi pembelian?"
                             );
 
-                            if (confirmDelete) {
-                              destroy(value.idorder);
-                              alert("Pesanan dibayar!");
-                              window.location.reload();
-                            } else {
+                            if (confirmBuy) {
+                                 buy(value.idorder);
+                                 alert("Order dibayar!");
+                                 window.location.reload();
                             }
-                            buy(value.idorder);
                           }}
                           className="inline-flex items-center px-3 py-1 text-lg font-medium text-center bg-floralwhite text-deepkoamaru hover:bg-deepkoamaru hover:text-floralwhite hover:border-floralwhite border-2 transition duration-300 ease-linear rounded-lg "
                         >

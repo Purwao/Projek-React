@@ -13,7 +13,8 @@ class FishController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        
         $fish = Fish::all();
         return response()->json($fish);
     }

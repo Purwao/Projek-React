@@ -61,6 +61,11 @@ $app->singleton(
 
 $app->configure('app');
 
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->configure('mail');
+$app->register(Illuminate\View\ViewServiceProvider::class);
+$app->configure('view');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -75,7 +80,9 @@ $app->configure('app');
 $app->middleware([
     App\Http\Middleware\CorsMiddleware::class
  ]);
-
+ $app->routeMiddleware([
+    'token.auth' => App\Http\Middleware\TokenAuth::class,
+]);
 // $app->middleware([
 //     App\Http\Middleware\ExampleMiddleware::class
 // ]);

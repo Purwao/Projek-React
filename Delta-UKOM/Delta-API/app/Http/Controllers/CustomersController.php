@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendOtpMail;
 use App\Models\Customers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class CustomersController extends Controller
 {
@@ -15,7 +18,7 @@ class CustomersController extends Controller
      */
     public function index()
     {
-        $Customers=Customers::all();
+        $Customers = Customers::all();
         return response()->json($Customers);
     }
 
@@ -31,18 +34,18 @@ class CustomersController extends Controller
             'password' => 'required',
         ]);
 
-        $password=Hash::make($request->input('password'));
-
+        $password = Hash::make($request->input('password'));
+        $token = Str::random(40);
         $data = [
             'email' => $request->input('email'),
             'password' => $password,
-            'api_token' =>  "123"
+            'api_token' =>  $token
         ];
 
-        $Cust=Customers::create($data);
+        $Cust = Customers::create($data);
         if ($Cust) {
             return response()->json([
-                'data'=> $Cust,
+                'data' => $Cust,
                 'status' => 201,
                 'msg' => 'Data berhasil ditambahkan',
             ]);
@@ -56,9 +59,9 @@ class CustomersController extends Controller
         ]);
 
         $email = $request->input('email');
-        $password= $request->input('password');
+        $password = $request->input('password');
 
-        $customers=Customers::where('email',$email)->first();
+        $customers = Customers::where('email', $email)->first();
 
         if (isset($customers)) {
 
@@ -68,23 +71,62 @@ class CustomersController extends Controller
                     'data' => ''
                 ], 403);
             }
-                    if (Hash::check($password, $customers->password)){
-                        $token="123";
-                        $customers->update([
-                            'api_token' => $token,
-                        ]);
-                        return response()->json([
-                            'pesan' => 'login sukses',
-                            'token' => $token,
-                            'data' => $customers,
-                        ], 200);
-                    } else {
-                        return response()->json([
-                            'pesan' => 'wrong password dumbas',
-                            'data' => ''
-                        ], 401);
-                    }
-                } 
+            if (Hash::check($password, $customers->password)) {
+                $token = Str::random(40);
+                $customers->update([
+                    'api_token' => $token,
+                ]);
+                return response()->json([
+                    'pesan' => 'login sukses',
+                    'token' => $token,
+                    'data' => $customers,
+                ], 200) ->header('api_token',$token);
+            } else {
+                return response()->json([
+                    'pesan' => 'wrong password dumbas',
+                    'data' => ''
+                ], 401);
+            }
+        }
+    }
+
+    public function OTP(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required',
+        ]);
+        $user= Customers::where('email', $request->input('email'))->first(); 
+        
+        if (!$user) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+
+        $otp = rand(100000, 999999);//6 angka 
+        $user->otp = $otp;
+        $user->save();
+
+        $emailUser= $request->input('email');
+        Mail::to($emailUser)->send(new SendOtpMail($otp));
+
+         return response()->json(['message' => 'OTP sent to your email.']);
+    }
+
+
+    public function OTPverify(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required',
+        ]);
+        $user= Customers::where('email', $request->input('email'))->first(); 
+        
+        if (!$user) {
+            return response()->json(['error' => 'User not found.'], 404);
+        }
+        if ($user->otp == $request->input('otp')) {
+            // OTP is correct, proceed with your logic
+            return response()->json(['message' => 'OTP verified successfully.','status'=>200]);
+        }
+
     }
 
     /**
@@ -142,18 +184,45 @@ class CustomersController extends Controller
     {
         //
     }
- 
+
     public function seeSaldo(Customers $customers, $id)
     {
-        $result=Customers::where('id',$id)->first();
+        $result = Customers::where('id', $id)->first();
         return response()->json($result);
     }
     public function topupSaldo(Customers $customers, Request $request, $id)
     {
-        $Cust=Customers::where('id',$id)->first();
+        $Cust = Customers::where('id', $id)->first();
         $Cust->saldo += $request->input('saldo');
         $Cust->save();
         return response()->json($Cust);
     }
+    public function banUser(Customers $customers, $id)
+    {
+        $result = Customers::where('id', $id)->first();
+        $result->status = 0;
+        $result->save();
+        return response()->json($result);
+    }
+    public function permitUser(Customers $customers, $id)
+    {
+        $result = Customers::where('id', $id)->first();
+        $result->status = 1;
+        $result->save();
+        return response()->json($result);
+    }
 
+    public function switchRole(Customers $customers, $id)
+    {
+        $result = Customers::where('id', $id)->first();
+        if ($result->role < 3) {
+            $result->role += 1;
+        } else {
+            $result->role = 0;
+        }
+
+        $result->save();
+
+        return response()->json($result);
+    }
 }
